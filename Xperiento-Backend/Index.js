@@ -6,9 +6,12 @@ const mongoose = require("mongoose");
 const userRoutes = require("./routes/user.action");
 const insightRoutes = require("./routes/insight.action");
 const authRoute = require("./routes/auth.action");
+const extractToken = require("./utils/middleware");
+const Insight = require("./models/Insights_model");
+const User = require("./models/User_Customer");
 
 const app = express();
-const port = 5000;
+const port = 5055;
 
 // Middleware
 app.use(bodyParser.json());
@@ -36,8 +39,17 @@ db.once("open", () => {
 
 // API Routes
 app.use("/users", userRoutes);
-app.use("/insights", insightRoutes);
+app.use("/insights", extractToken, insightRoutes);
 app.use("/auth", authRoute);
+
+app.get("/test", async (req, res) => {
+  try {
+    res.json({ message: "Test Api" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message || "Server error" });
+  }
+});
 
 // Default route
 app.get("/", (req, res) => {

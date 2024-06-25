@@ -1,15 +1,17 @@
- 'use client'; 
+'use client'; 
 import { useEffect } from 'react';
 
 export default function Error({ error, reset }) {
   useEffect(() => {
-     console.error(error);
+     console.error(error?.message);
   }, [error]);
 
   return (
-    <div>
-      <h2>Something went wrong!</h2>
-      <button onClick={() => reset()}>
+    <div id='ErrorPage'>
+      <h2>Error Occured!</h2>
+      <p className='message'>{error?.message||"Something went wrong!"}
+         </p>
+      <button className='start' onClick={() => reset()}>
         Try again
       </button>
     </div>

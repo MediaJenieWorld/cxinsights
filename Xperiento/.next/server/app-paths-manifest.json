@@ -1,8 +1,7 @@
 {
   "/page": "app/page.js",
-  "/error/page": "app/error/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/dashboard/page": "app/dashboard/page.js",
   "/dashboard/my_insights/page": "app/dashboard/my_insights/page.js",
+  "/dashboard/implemented/page": "app/dashboard/implemented/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
   "/dashboard/my_actions_list/page": "app/dashboard/my_actions_list/page.js"
 }

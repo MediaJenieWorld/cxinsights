@@ -87,6 +87,115 @@ router.get("/category:insightCategory", async (req, res) => {
   }
 });
 
+router.post("/:postId/bookmarks", async (req, res) => {
+  const postId = req.params.postId;
+
+  try {
+    const post = await Insight.findById(postId);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+    const userId = req.user._id;
+    const index = post.bookmarks.indexOf(userId);
+
+    if (index === -1) {
+      // User hasn't bookmarked the post, add bookmark
+      post.bookmarks.push(userId);
+      // Add the insight to the user's todo array
+      await User.findByIdAndUpdate(userId, { $push: { todo: postId } });
+    } else {
+      // User has already bookmarked the post, remove bookmark
+      post.bookmarks.splice(index, 1);
+      // Remove the insight from the user's todo array
+      await User.findByIdAndUpdate(userId, { $pull: { todo: postId } });
+    }
+    await post.save();
+
+    res.status(200).json(post); // Return updated post
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message || "Server error" });
+  }
+});
+
+router.post("/:postId/like", async (req, res) => {
+  const postId = req.params.postId;
+
+  try {
+    const post = await Insight.findById(postId);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+    const userId = req.user._id;
+    const index = post.likes.indexOf(userId);
+
+    if (index === -1) {
+      // User hasn't liked the post, add like
+      post.likes.push(userId);
+      await User.findByIdAndUpdate(userId, { $push: { liked: postId } });
+    } else {
+      // User has already liked the post, remove like
+      await User.findByIdAndUpdate(userId, { $pull: { liked: postId } });
+      post.likes.splice(index, 1);
+    }
+    await post.save();
+
+    res.status(200).json(post); // Return updated post
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// POST /posts/:postId/dislike
+router.post("/:postId/dislike", async (req, res) => {
+  const postId = req.params.postId;
+
+  try {
+    const post = await Insight.findById(postId);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+    const userId = req.user._id;
+    const index = post.dislikes.indexOf(userId);
+
+    if (index === -1) {
+      await User.findByIdAndUpdate(userId, { $push: { disliked: postId } });
+      // User hasn't disliked the post, add dislike
+      post.dislikes.push(userId);
+    } else {
+      // User has already disliked the post, remove dislike
+      await User.findByIdAndUpdate(userId, { $pull: { disliked: postId } });
+      post.dislikes.splice(index, 1);
+    }
+    await post.save();
+
+    res.status(200).json(post); // Return updated post
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+router.delete("/:postId", async (req, res) => {
+  const postId = req.params.postId;
+
+  try {
+    const post = await Insight.deleteOne({ _id: postId });
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    // Remove the post from the author's insights array
+    await User.findByIdAndUpdate(post.author, { $pull: { insights: postId } });
+
+    res.status(200).json({ message: "Post deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message || "Server error" });
+  }
+});
+
 module.exports = router;
 
 // CREATE NEW

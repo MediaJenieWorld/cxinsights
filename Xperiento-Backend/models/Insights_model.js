@@ -17,9 +17,6 @@ const insightSchema = new mongoose.Schema(
     iconURL: {
       type: String,
     },
-    insightDataURL: {
-      type: String,
-    },
     insightLevel: {
       type: String,
     },
@@ -66,9 +63,14 @@ const insightSchema = new mongoose.Schema(
       ],
       default: [],
     },
-    totalBookmarks: {
-      type: Number,
-      default: 0,
+    bookmarks: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+      ],
+      default: [],
     },
     implementNumber: {
       type: Number,

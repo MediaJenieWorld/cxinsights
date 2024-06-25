@@ -4,7 +4,7 @@ import { cookiesKey } from "./temp_tokenKey";
 
 export const authenticationClientMiddleware = (value = undefined) => {
   const cookie = new Cookies();
-  const token = cookie.get(cookiesKey);
+  const token = value||cookie.get(cookiesKey);
   let userData;
 
   if (!token) {
@@ -19,6 +19,11 @@ export const authenticationClientMiddleware = (value = undefined) => {
   }
 
   return userData;
+};
+export const getToken = (value = undefined) => {
+  const cookie = new Cookies();
+  const token = value||cookie.get(cookiesKey);
+  return token;
 };
 
 export function decodingToken(token) {

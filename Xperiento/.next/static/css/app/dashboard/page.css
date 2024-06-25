@@ -36,6 +36,7 @@
 .Dashboard .Insights .card {
   cursor: pointer;
   min-width: 210px;
+  --br: 30px;
   border-radius: 30px;
   padding: 30px;
   display: flex;
@@ -60,23 +61,6 @@
 }
 .Dashboard .Insights .card p {
   font-size: var(--font-xmd);
-}
-.Dashboard .Insights .card::before {
-  position: absolute;
-  top: 0px;
-  border-radius: 30px;
-  left: 0px;
-  content: "";
-  height: 100%;
-  width: 100%;
-  background-image: var(--gradient);
-  opacity: 0;
-  z-index: 1;
-  transform-origin: bottom center;
-  transition: opacity 0.5s ease-in-out;
-}
-.Dashboard .Insights .card:hover::before {
-  opacity: 1;
 }
 .Dashboard .overLook {
   display: grid;
@@ -125,6 +109,7 @@
   color: var(--primary-color);
   padding: 1.5rem;
   border-radius: 25px;
+  --br: 25px;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -196,8 +181,8 @@
 .PostCard .Like_Dislike_footer div:last-of-type {
   margin-left: auto;
 }
-.PostCard .Like_Dislike_footer div:hover {
-  background-color: var(--hoverColor);
+.PostCard .Like_Dislike_footer div:hover, .PostCard .Like_Dislike_footer div.active {
+  color: var(--hoverColor);
 }
 .PostCard .Like_Dislike_footerAlternate {
   padding: 0.5rem 1rem;

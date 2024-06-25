@@ -28,9 +28,10 @@ export const UserProvider = ({ children }) => {
 
   const sign_out_handler = () => {
     toast.success("Logged Out");
-    updateAuth(null);
+  
     cookies.remove(cookiesKey, { path: "/" });
     router.push("/");
+    updateAuth(null);
   };
 
   return (

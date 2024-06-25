@@ -6,6 +6,7 @@
   color: var(--primary-color);
   padding: 1.5rem;
   border-radius: 25px;
+  --br: 25px;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -77,8 +78,8 @@
 .PostCard .Like_Dislike_footer div:last-of-type {
   margin-left: auto;
 }
-.PostCard .Like_Dislike_footer div:hover {
-  background-color: var(--hoverColor);
+.PostCard .Like_Dislike_footer div:hover, .PostCard .Like_Dislike_footer div.active {
+  color: var(--hoverColor);
 }
 .PostCard .Like_Dislike_footerAlternate {
   padding: 0.5rem 1rem;

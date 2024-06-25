@@ -4,13 +4,15 @@ import { UserContext } from "@/store/UserContext";
 import { useContext } from "react";
 import InsightsCard from "../InsightsCard";
 
+const MyTodoAndLikeCount = ({ data }) => {
+  const { auth } = useContext(UserContext);
+  let todoCount = data?.todoLength || auth?.todo?.length || 0;
+  let likeCount = data?.likedLength || auth?.liked?.length || 0;
 
-const MyTodoAndLikeCount = () => {
-  const { auth } = useContext(UserContext)
   return (
     <div className="overLook">
-      <InsightsCard insightNumber={auth?.todo?.length || 0} label="To-Do" />
-      <InsightsCard insightNumber={auth?.liked?.length || 0} label="Liked" />
+      <InsightsCard isGlow={false} insightNumber={todoCount} label="To-Do" />
+      <InsightsCard isGlow={false} insightNumber={likeCount} label="Liked" />
     </div>
   );
 };

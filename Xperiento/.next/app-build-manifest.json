@@ -1,9 +1,10 @@
 {
   "pages": {
-    "/error/page": [
+    "/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/error/page.js"
+      "static/css/app/page.css",
+      "static/chunks/app/page.js"
     ],
     "/layout": [
       "static/chunks/webpack.js",
@@ -26,17 +27,16 @@
       "static/chunks/main-app.js",
       "static/chunks/app/not-found.js"
     ],
-    "/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/page.css",
-      "static/chunks/app/page.js"
-    ],
     "/dashboard/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/dashboard/page.css",
       "static/chunks/app/dashboard/page.js"
+    ],
+    "/dashboard/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/dashboard/layout.js"
     ],
     "/dashboard/my_insights/page": [
       "static/chunks/webpack.js",
@@ -49,6 +49,12 @@
       "static/chunks/main-app.js",
       "static/css/app/dashboard/my_actions_list/page.css",
       "static/chunks/app/dashboard/my_actions_list/page.js"
+    ],
+    "/dashboard/implemented/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/dashboard/implemented/page.css",
+      "static/chunks/app/dashboard/implemented/page.js"
     ]
   }
 }

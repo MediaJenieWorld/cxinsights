@@ -77,6 +77,16 @@ const userSchema = new mongoose.Schema(
       default: [],
     },
 
+    disliked: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Insight",
+        },
+      ],
+      default: [],
+    },
+
     permissions: {
       type: [String],
       default: [],

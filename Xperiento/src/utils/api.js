@@ -1,6 +1,7 @@
 import axios from "axios";
-import { server_base_Url, cookiesKey } from "./temp_tokenKey";
-import Cookies from "universal-cookie";
+import { server_base_Url } from "./temp_tokenKey";
+import { getToken } from "./token";
+import { updatedCookies } from "@/store/serverAuthCookies";
 
 const instance = axios.create({
   baseURL: server_base_Url,
@@ -12,10 +13,9 @@ instance.interceptors.request.use(
     try {
       config.headers["Content-Type"] = "application/json";
       config.headers.Accept = "application/json";
-      const token = new Cookies().get(cookiesKey);
-      console.log("token", token);
+      const token = getToken() || updatedCookies();
       if (token) {
-        config.headers.Authorization = ` Bearer ${token}`;
+        config.headers.Authorization = `Bearer ${token}`;
       }
     } catch (error) {
       console.error("error ==> ", error.message);
@@ -36,25 +36,47 @@ instance.interceptors.response.use(
   }
 );
 
+const handleRequest = async (request) => {
+  try {
+    return await request();
+  } catch (error) {
+    console.error("error ==> ", error.message);
+    return { data: { data: error.message || "Server Error", success: false } };
+  }
+};
+
 export const login = async (data) => {
-  return instance.post("auth/login", data);
+  return handleRequest(() => instance.post("auth/login", data));
 };
 
 export const signUp = async (data) => {
-  try {
-    return await instance.post("auth/createAccount", data);
-  } 
-  catch (error) {
-    console.error("error ==> ", error.message);
-    return {data:{
-      data:"Server Error",success:false
-    }}
-  }
+  return handleRequest(() => instance.post("auth/createAccount", data));
 };
+
+export const getDashboardCounts = async () => {
+  return handleRequest(() => instance.get("users/counts"));
+};
+
+export const getActionsList = async () => {
+  return handleRequest(() => instance.get(`users/myTodos`));
+};
+
 export const getDashboard = async () => {
-  return await instance.get("insights/counts");
+  return handleRequest(() => instance.get("insights/counts"));
 };
 
 export const cardget = async () => {
-  return await instance.get("insights");
-}
+  return handleRequest(() => instance.get("insights"));
+};
+
+export const likeHandler = async (id) => {
+  return handleRequest(() => instance.post(`insights/${id}/like`));
+};
+
+export const bookmarksHandler = async (id) => {
+  return handleRequest(() => instance.post(`insights/${id}/bookmarks`));
+};
+
+export const dislikeHandler = async (id) => {
+  return handleRequest(() => instance.post(`insights/${id}/dislike`));
+};

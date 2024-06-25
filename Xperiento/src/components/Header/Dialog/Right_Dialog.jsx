@@ -16,7 +16,6 @@ const CustomRightDynamicDialog = ({ modelHeight, modelWidth }) => {
 if(!auth){
     return <></>
 }
-
     const toggleMenu = () => {
         setChecked(pre => !pre)
     }
@@ -64,9 +63,8 @@ if(!auth){
                             {auth ?
                                 <button onClick={() => {
                                     sign_out_handler()
-                                    setTimeout(() => {
+                                    router.push('/')
                                         setChecked(false)
-                                    }, 200);
                                 }} className={`${styles.item} ${styles.button}`}>Sign Out</button> :
                                 <button onClick={() => linkAction("/")} className={`${styles.item} ${styles.button}`}>Sign In</button>}
                         </ul>
