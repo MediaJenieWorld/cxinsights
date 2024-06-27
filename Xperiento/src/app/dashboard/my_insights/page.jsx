@@ -1,13 +1,36 @@
 import PostCard from "@/components/ui/dashboard/PostCard/PostCard";
-
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import "./styles.scss";
-import Image from "next/image";
 import LikeDislikeFooter from "@/components/ui/dashboard/PostCard/LikeDislikeFooter";
-import { cardget } from "@/utils/api";
-const MyInsightsPage = async () => {
-  const req = await cardget();
-  const res = req.data;
+import { getInsights } from "@/utils/api";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import ErrorPage from "@/ErrorPage";
+
+const MyInsightsPage = () => {
+  const [insightsData, setInsightsArray] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const dashboardApis = async () => {
+      const response = await getInsights();
+      const res = response.data;
+      if (response.status === 200) {
+        setInsightsArray(res);
+      } else {
+        setError(res.data);
+        toast.error(response?.data.data);
+      }
+    };
+    dashboardApis();
+  }, []);
+
+  if (error) {
+    return <ErrorPage message={error} />;
+  }
+  if (insightsData == null) {
+    return <h1>Loading</h1>;
+  }
 
   return (
     <div className="MyInsights">
@@ -21,13 +44,13 @@ const MyInsightsPage = async () => {
           </h3>
         </div>
         <div className="flex">
-          <Image
+          <img
             src={"/assets/dashboard/restaurant.png"}
             height={60}
             width={60}
             alt="restaurant"
           />
-          <Image
+          <img
             src={"/assets/dashboard/cafe.png"}
             height={60}
             width={60}
@@ -37,7 +60,7 @@ const MyInsightsPage = async () => {
       </div>
       <div className="latestInsights">
         <div className="list">
-          {res?.data?.map((insight, i) => {
+          {insightsData?.data?.map((insight, i) => {
             return (
               <PostCard
                 footer={<LikeDislikeFooter data={insight} />}
@@ -55,7 +78,7 @@ const MyInsightsPage = async () => {
             >
               <Link
                 style={{ textDecoration: "none", color: "inherit" }}
-                href="/dashboard/my_insights"
+                to="/dashboard/my_insights"
               >
                 Load More
               </Link>

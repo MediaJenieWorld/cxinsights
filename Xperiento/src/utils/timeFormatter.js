@@ -1,4 +1,4 @@
-const formatDate = (inputDate) => {
+export const formatDate = (inputDate) => {
   const date = new Date(inputDate);
 
   const months = [
@@ -30,8 +30,4 @@ const formatDate = (inputDate) => {
   const minutes = date.getMinutes().toString().padStart(2, "0");
 
   return `${month} ${day}${suffix} ${year} ${hours}:${minutes} ${ampm}`;
-};
-
-module.exports = {
-  formatDate,
 };

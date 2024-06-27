@@ -44,7 +44,9 @@ app.use("/auth", authRoute);
 
 app.get("/test", async (req, res) => {
   try {
-    res.json({ message: "Test Api" });
+    let user = await Insight.find();
+
+    res.json({ message: "Test Api", data: user });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error.message || "Server error" });

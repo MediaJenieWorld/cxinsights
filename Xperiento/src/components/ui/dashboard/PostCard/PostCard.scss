@@ -76,7 +76,7 @@
     }
 
     .Like_Dislike_footer {
-        padding: 1rem;
+        padding: 1rem 0rem;
         padding-bottom: 0rem;
         border-top: 1px solid var(--hoverColor);
         display: flex;
@@ -104,7 +104,40 @@
             }
         }
 
+    }
 
+    .FeedbackStar {
+        padding: 1rem 0rem;
+        padding-bottom: 0rem;
+        border-top: 1px solid var(--hoverColor);
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.5rem;
+
+        .starsCollection {
+            display: flex;
+            gap: .125rem;
+
+            .active {
+                color: var(--star-color);
+            }
+        }
+
+        .icon-container {
+            height: 35px;
+            width: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            background-color: transparent;
+            transition: background-color .2s ease-in-out;
+
+            &.active,
+            &:hover {
+                color: var(--star-color);
+            }
+        }
     }
 
     .Like_Dislike_footerAlternate {

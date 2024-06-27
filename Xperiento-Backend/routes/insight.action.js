@@ -25,6 +25,27 @@ router.post("/", async (req, res) => {
   }
 });
 
+// GET Single Insight
+router.post("/getInsight", async (req, res) => {
+  try {
+    const { id } = req.body;
+    const insight = await Insight.findById(id)
+      .populate({
+        path: "comments.author",
+        model: "User",
+        select: "firstName lastName email",
+      })
+      .exec();
+
+    if (insight && insight.comments) {
+      insight.comments.sort((a, b) => b.createdAt - a.createdAt);
+    }
+    res.status(200).json({ data: insight, success: true });
+  } catch (error) {
+    res.status(500).json({ data: error.message, success: false });
+  }
+});
+
 // Route to get all insights
 router.get("/", async (req, res) => {
   try {
@@ -93,7 +114,9 @@ router.post("/:postId/bookmarks", async (req, res) => {
   try {
     const post = await Insight.findById(postId);
     if (!post) {
-      return res.status(404).json({ error: "Post not found" });
+      return res
+        .status(200)
+        .json({ data: "Insight not found", success: false });
     }
     const userId = req.user._id;
     const index = post.bookmarks.indexOf(userId);
@@ -110,11 +133,90 @@ router.post("/:postId/bookmarks", async (req, res) => {
       await User.findByIdAndUpdate(userId, { $pull: { todo: postId } });
     }
     await post.save();
+    const updatedPost = await Insight.findById(postId)
+      .select("bookmarks likes dislikes")
+      .lean();
 
-    res.status(200).json(post); // Return updated post
+    res.status(200).json({ data: updatedPost, success: true });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: err.message || "Server error" });
+    res
+      .status(500)
+      .json({ data: err.message || "Server error", success: false });
+  }
+});
+
+//  Save Implement to User
+router.post("/:postId/implement/add", async (req, res) => {
+  const postId = req.params.postId;
+
+  try {
+    const post = await Insight.findById(postId);
+    if (!post) {
+      return res
+        .status(200)
+        .json({ data: "Insight not found", success: false });
+    }
+    const userId = req.user._id;
+    const index = post.implements.indexOf(userId);
+    let user;
+    if (index === -1) {
+      user = await User.findByIdAndUpdate(userId, {
+        $push: { implement: postId },
+        $pull: { todo: postId },
+      })
+        .select("implement")
+        .lean();
+    } else {
+      return res
+        .status(200)
+        .json({ data: "Can't Undo Action", success: false });
+      post.implements.splice(index, 1);
+      user = await User.findByIdAndUpdate(userId, {
+        $pull: { implement: postId },
+      })
+        .select("implement")
+        .lean();
+    }
+    res.status(200).json({ data: user, success: true });
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ data: err.message || "Server error", success: false });
+  }
+});
+
+// Update Implement Stars
+router.post("/:postId/implement/stars", async (req, res) => {
+  const postId = req.params.postId;
+  const userId = req.user._id;
+
+  const { stars } = req.body;
+  try {
+    const post = await Insight.findByIdAndUpdate(
+      postId,
+      {
+        $push: {
+          implements: {
+            stars,
+            author: userId,
+          },
+        },
+        // $set: {
+        //   implements: [],
+        // },
+      },
+      { new: true }
+    )
+      .select("implements")
+      .lean();
+    res.status(200).json({ data: post, success: true });
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ data: err.message || "Server error", success: false });
   }
 });
 
@@ -124,7 +226,9 @@ router.post("/:postId/like", async (req, res) => {
   try {
     const post = await Insight.findById(postId);
     if (!post) {
-      return res.status(404).json({ error: "Post not found" });
+      return res
+        .status(200)
+        .json({ data: "Insight not found", success: false });
     }
     const userId = req.user._id;
     const index = post.likes.indexOf(userId);
@@ -139,41 +243,100 @@ router.post("/:postId/like", async (req, res) => {
       post.likes.splice(index, 1);
     }
     await post.save();
+    const updatedPost = await Insight.findById(postId)
+      .select("bookmarks likes dislikes")
+      .lean();
 
-    res.status(200).json(post); // Return updated post
+    res.status(200).json({ data: updatedPost, success: true });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Server error" });
+    res
+      .status(500)
+      .json({ data: err.message || "Server error", success: false });
   }
 });
 
 // POST /posts/:postId/dislike
+
 router.post("/:postId/dislike", async (req, res) => {
   const postId = req.params.postId;
 
   try {
     const post = await Insight.findById(postId);
     if (!post) {
-      return res.status(404).json({ error: "Post not found" });
+      return res
+        .status(404)
+        .json({ data: "Insight not found", success: false });
     }
+
     const userId = req.user._id;
     const index = post.dislikes.indexOf(userId);
 
     if (index === -1) {
-      await User.findByIdAndUpdate(userId, { $push: { disliked: postId } });
       // User hasn't disliked the post, add dislike
       post.dislikes.push(userId);
     } else {
       // User has already disliked the post, remove dislike
-      await User.findByIdAndUpdate(userId, { $pull: { disliked: postId } });
       post.dislikes.splice(index, 1);
     }
+
+    // Save the post with only selected fields
     await post.save();
 
-    res.status(200).json(post); // Return updated post
+    // Fetch the updated post with selected fields only
+    const updatedPost = await Insight.findById(postId)
+      .select("bookmarks likes dislikes")
+      .lean();
+
+    res.status(200).json({ data: updatedPost, success: true });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Server error" });
+    res
+      .status(500)
+      .json({ data: err.message || "Server error", success: false });
+  }
+});
+
+// Add Comment
+router.post("/:postId/comments", async (req, res) => {
+  const postId = req.params.postId;
+  const text = req.body.text;
+  const userId = req.user._id;
+
+  try {
+    const post = await Insight.findById(postId);
+    if (!post) {
+      return res
+        .status(404)
+        .json({ data: "Insight not found", success: false });
+    }
+
+    const newComment = {
+      text,
+      author: userId,
+    };
+    const updatedComments = await Insight.findByIdAndUpdate(
+      post._id,
+      {
+        $push: { comments: newComment },
+      },
+      { new: true }
+    )
+      .select("comments")
+      .populate({
+        path: "comments.author",
+        model: "User",
+        select: "firstName lastName email",
+      })
+      .lean()
+      .exec();
+
+    if (updatedComments && updatedComments.comments) {
+      updatedComments.comments.sort((a, b) => b.createdAt - a.createdAt);
+    }
+    res.status(201).json({ data: updatedComments, success: true });
+  } catch (error) {
+    res.status(500).json({ data: error.message, success: false });
   }
 });
 
@@ -183,16 +346,20 @@ router.delete("/:postId", async (req, res) => {
   try {
     const post = await Insight.deleteOne({ _id: postId });
     if (!post) {
-      return res.status(404).json({ error: "Post not found" });
+      return res
+        .status(200)
+        .json({ data: "Insight not found", success: false });
     }
 
     // Remove the post from the author's insights array
     await User.findByIdAndUpdate(post.author, { $pull: { insights: postId } });
 
-    res.status(200).json({ message: "Post deleted successfully" });
+    res.status(200).json({ message: "Insight deleted successfully" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: err.message || "Server error" });
+    res
+      .status(500)
+      .json({ data: err.message || "Server error", success: false });
   }
 });
 

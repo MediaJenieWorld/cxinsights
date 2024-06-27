@@ -1,8 +1,3 @@
-const encodeKey = "Xperiento-db12";
-const cookiesKey = "Xperiento-cookies";
-const server_base_Url = "http://localhost:5055/";
-module.exports = {
-  encodeKey,
-  cookiesKey,
-  server_base_Url,
-};
+export const encodeKey = "Xperiento-db12";
+export const cookiesKey = "Xperiento-cookies";
+export const server_base_Url = "http://localhost:5055/";

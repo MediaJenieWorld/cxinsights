@@ -66,8 +66,7 @@ const userSchema = new mongoose.Schema(
       ],
       default: [],
     },
-
-    liked: {
+    implement: {
       type: [
         {
           type: mongoose.Schema.Types.ObjectId,
@@ -77,7 +76,7 @@ const userSchema = new mongoose.Schema(
       default: [],
     },
 
-    disliked: {
+    liked: {
       type: [
         {
           type: mongoose.Schema.Types.ObjectId,

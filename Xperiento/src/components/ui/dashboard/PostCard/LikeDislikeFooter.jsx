@@ -1,10 +1,10 @@
 "use client";
-import { UserContext } from "@/store/UserContext";
+import { UserContext } from "@/store/User_Context";
 import { useContext, useState } from "react";
 import { bookmarksHandler, dislikeHandler, likeHandler } from "@/utils/api";
-const LikeDislikeFooter = ({ data }) => {
+import { toast } from "react-toastify";
+const LikeDislikeFooter = ({ data, disableActions = false }) => {
   const { auth } = useContext(UserContext);
-  console.log("data", data);
   const isLiked = data.likes.includes(auth?._id);
   const isDisliked = data.dislikes.includes(auth?._id);
   const isMarked = data.bookmarks.includes(auth?._id);
@@ -13,31 +13,46 @@ const LikeDislikeFooter = ({ data }) => {
   const [disliked, setDisliked] = useState(isDisliked);
   const [bookmarked, setBookmarked] = useState(isMarked);
 
-  const handleLike = async() => {
-    if(isDisliked) {
-      return 
+  const handleLike = async () => {
+    if (isDisliked) {
+      return;
     }
-    const guest = await likeHandler(data._id);
-    setLiked(!liked);
-    setDisliked(false);
+    const response = await likeHandler(data._id);
+    if (response.data.success) {
+      setDisliked(false);
+      setLiked(!liked);
+      toast.success("Liked Successfully!!");
+    } else {
+      toast.error(response.data.data || "Failed to perform like action");
+    }
   };
 
-  const handleDislike = async() => {
-    if(isLiked) {
-      return 
+  const handleDislike = async () => {
+    if (isLiked) {
+      return;
     }
-    const guest = await dislikeHandler(data._id);
-    setDisliked(!disliked);
-    setLiked(false);
+
+    const response = await dislikeHandler(data._id);
+    if (response.data.success) {
+      setDisliked(!disliked);
+      toast.success("Disliked Successfully!!");
+      setLiked(false);
+    } else {
+      toast.error(response.data.data || "Failed to perform dislike action");
+    }
   };
 
-  const handleBookmark = async() => {
-
-    // if(isMarked) {
-    //   return 
-    // }
-    const guest = await bookmarksHandler(data._id);
-    setBookmarked(!bookmarked);
+  const handleBookmark = async () => {
+    if (disableActions || bookmarked) {
+      return toast.info("Action not available!");
+    }
+    const response = await bookmarksHandler(data._id);
+    if (response.data.success) {
+      setBookmarked(!bookmarked);
+      toast.success("Bookmarked Successfully!!");
+    } else {
+      toast.error(response.data.data || "Failed to perform bookmark action");
+    }
   };
 
   return (

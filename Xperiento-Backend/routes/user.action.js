@@ -22,7 +22,7 @@ router.get("/counts", extractToken, async (req, res) => {
     }
     const todoLength = user.todo.length;
     const likedLength = user.liked.length;
-    res.json({ message: "Test Api", todoLength, likedLength });
+    res.status(200).json({ message: "Test Api", todoLength, likedLength });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error.message || "Server error" });
@@ -37,6 +37,24 @@ router.get("/myTodos", extractToken, async (req, res) => {
       res.status(404).json({ error: "User not found" });
     } else {
       res.json({ data: user.todo, success: true });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message, success: false });
+  }
+});
+
+router.get("/myImpletements", extractToken, async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    const user = await User.findById(userId)
+      .populate({ path: "implement" })
+      .exec();
+    // console.log("User", user);
+    if (!user) {
+      res.status(404).json({ error: "User not found" });
+    } else {
+      res.json({ data: user.implement, success: true });
     }
   } catch (error) {
     res.status(500).json({ error: error.message, success: false });

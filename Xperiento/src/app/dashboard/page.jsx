@@ -1,39 +1,75 @@
-import Image from "next/image";
 import "./styles.scss";
+import { getDashboard, getDashboardCounts } from "@/utils/api";
+import { Suspense, lazy, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import InsightsCard from "@/components/ui/dashboard/InsightsCard";
 import PostCard from "@/components/ui/dashboard/PostCard/PostCard";
-import Link from "next/link";
-import MyTodoAndLikeCount from "@/components/ui/dashboard/UserLikeAndTodo/page";
-
 import LikeDislikeFooter from "@/components/ui/dashboard/PostCard/LikeDislikeFooter";
-import { getDashboard, getDashboardCounts } from "@/utils/api";
-import ErrorPage from "../error/page";
-import { cookiesKey } from '@/utils/temp_tokenKey'
-import { authenticationClientMiddleware } from '@/utils/token'
-import { cookies } from 'next/headers';
+import MyTodoAndLikeCount from "@/components/ui/dashboard/UserLikeAndTodo/page";
+import { toast } from "react-toastify";
+import ErrorPage from "@/ErrorPage";
 
-const DashboardPage = async () => {
-  const cookieStore = cookies()
-  const tokenValue = cookieStore.get(cookiesKey)?.value
- const auth = authenticationClientMiddleware(tokenValue)
-if(!auth){
-    return <h1>Protected Route</h1>
-}
-  const response = await getDashboard();
-  const userResponse = await getDashboardCounts();
-  const res = response.data;
-  const userRes = userResponse.data;
-  if (res.success === false) {
-    return <ErrorPage error={{ message: res.data }} />;
+const ServiceBoard = lazy(() =>
+  import("@/components/CreateAccount/ServiceBoard")
+);
+
+const DashboardPage = () => {
+  const [insightsArray, setInsightsArray] = useState(null);
+  const [myCounts, setMyCounts] = useState(null);
+  const [error, setError] = useState({
+    insight: null,
+    todo: null,
+  });
+
+  const [isNew, updateIsNewStatus] = useState(false);
+
+  useEffect(() => {
+    if (sessionStorage) {
+      const track = sessionStorage.getItem("isNew");
+      const isTrue = track ? true : false;
+      updateIsNewStatus(isTrue);
+    }
+  }, []);
+
+  useEffect(() => {
+    const dashboardApis = async () => {
+      const response = await getDashboard();
+      const userResponse = await getDashboardCounts();
+      const res = response.data;
+      const userRes = userResponse.data;
+      let errorMessage = "";
+      let getError = {};
+      if (response.status === 200) {
+        setInsightsArray(res);
+      } else {
+        errorMessage += "Insights, ";
+        getError.insight = true;
+      }
+      if (userResponse.status === 200) {
+        setMyCounts(userRes);
+      } else {
+        getError.todo = true;
+        errorMessage += "Unable to get liked and todo counts";
+      }
+      if (response.status !== 200 || userResponse.status !== 200) {
+        setError(getError);
+        toast.error(response?.data.data + ": " + errorMessage);
+      }
+    };
+    dashboardApis();
+  }, []);
+
+  console.log("Is new", isNew);
+  if (isNew == true) {
+    return <ServiceBoard updateIsNewStatus={updateIsNewStatus} />;
   }
-  const allInsightsCount = [
-    "Marketing",
-    "Behaviour",
-    "Price",
-    "Complaint",
-    "Sales",
-  ];
 
+  if (error.insight === true || error.todo === true) {
+    return <ErrorPage message="Network Error!!!" />;
+  }
+  if (insightsArray === null || myCounts === null) {
+    return <h1>Loading...</h1>;
+  }
   return (
     <div className="Dashboard">
       <div className="header">
@@ -46,13 +82,13 @@ if(!auth){
           </h3>
         </div>
         <div className="flex">
-          <Image
+          <img
             src={"/assets/dashboard/restaurant.png"}
             height={60}
             width={60}
             alt="restaurant"
           />
-          <Image
+          <img
             src={"/assets/dashboard/cafe.png"}
             height={60}
             width={60}
@@ -65,25 +101,26 @@ if(!auth){
           return <InsightsCard key={i} insightNumber={res?.counts[label] || 0} label={label} />
         })} */}
         {/* USE THIS WHEN TO SHOW ONLY AVAILABLE INSIGHTS CATEGORY */}
-        {Object.keys(res.counts).map((key, index) => (
+        {Object.keys(insightsArray.counts).map((key, index) => (
           <InsightsCard
             key={index}
-            insightNumber={res.counts[key]}
+            insightNumber={insightsArray.counts[key]}
             label={key}
           />
         ))}
       </div>
-      <MyTodoAndLikeCount data={userRes} />
+      <MyTodoAndLikeCount data={myCounts} />
       <div className="latestInsights">
         <p className="latestInsights_title">LATEST INSIGHTS</p>
         <div className="list">
-          {res?.data?.map((insight, i) => {
+          {insightsArray?.data?.map((insight, i) => {
             return (
-              <PostCard
-                key={i}
-                data={insight}
-                footer={<LikeDislikeFooter data={insight} />}
-              />
+              <div key={i}>
+                <PostCard
+                  data={insight}
+                  footer={<LikeDislikeFooter data={insight} />}
+                />
+              </div>
             );
           })}
           <div className="centered">
@@ -95,7 +132,7 @@ if(!auth){
             >
               <Link
                 style={{ textDecoration: "none", color: "inherit" }}
-                href="/dashboard/my_insights"
+                to="/dashboard/my_insights"
               >
                 Load More
               </Link>

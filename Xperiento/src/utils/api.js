@@ -1,7 +1,7 @@
 import axios from "axios";
 import { server_base_Url } from "./temp_tokenKey";
-import { getToken } from "./token";
-import { updatedCookies } from "@/store/serverAuthCookies";
+import Cookies from "universal-cookie";
+import { cookiesKey } from "@/store/User_Context";
 
 const instance = axios.create({
   baseURL: server_base_Url,
@@ -13,7 +13,8 @@ instance.interceptors.request.use(
     try {
       config.headers["Content-Type"] = "application/json";
       config.headers.Accept = "application/json";
-      const token = getToken() || updatedCookies();
+      const cookies = new Cookies();
+      const token = cookies.get(cookiesKey);
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -61,12 +62,20 @@ export const getActionsList = async () => {
   return handleRequest(() => instance.get(`users/myTodos`));
 };
 
+export const getImplements = async () => {
+  return handleRequest(() => instance.get(`users/myImpletements`));
+};
+
 export const getDashboard = async () => {
   return handleRequest(() => instance.get("insights/counts"));
 };
 
-export const cardget = async () => {
+export const getInsights = async () => {
   return handleRequest(() => instance.get("insights"));
+};
+
+export const getSingleInsights = async (id) => {
+  return handleRequest(() => instance.post("insights/getInsight", { id }));
 };
 
 export const likeHandler = async (id) => {
@@ -77,6 +86,22 @@ export const bookmarksHandler = async (id) => {
   return handleRequest(() => instance.post(`insights/${id}/bookmarks`));
 };
 
+export const save_Unsave_Implement_Handler = async (id) => {
+  return handleRequest(() => instance.post(`insights/${id}/implement/add`));
+};
+
+export const giveStarsHandler = async ({ id, stars }) => {
+  return handleRequest(() =>
+    instance.post(`insights/${id}/implement/stars`, { stars })
+  );
+};
+
 export const dislikeHandler = async (id) => {
   return handleRequest(() => instance.post(`insights/${id}/dislike`));
+};
+
+export const createComment = async ({ id, text }) => {
+  return handleRequest(() =>
+    instance.post(`insights/${id}/comments`, { text })
+  );
 };

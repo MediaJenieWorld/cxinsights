@@ -1,8 +1,7 @@
 "use client";
-import { useContext, useEffect, useState } from 'react';
-import './styles.scss';
-import { UserContext } from '@/store/UserContext';
-import { redirect } from 'next/navigation';
+import { useContext, useEffect, useState } from "react";
+import "./styles.scss";
+import { UserContext } from "@/store/UserContext";
 
 const DashboardPage = () => {
   const { auth } = useContext(UserContext);
@@ -16,35 +15,42 @@ const DashboardPage = () => {
     } else {
       setLoading(false);
       setTimeout(() => {
-        redirect('/');
+        // redirect('/');
       }, 2000);
     }
   }, [auth]);
 
   if (isLoading) {
-    return <div className='dashboard'><h1>Loading...</h1></div>;
+    return (
+      <div className="dashboard">
+        <h1>Loading...</h1>
+      </div>
+    );
   }
 
   if (!user) {
-    return <div className='dashboard'><h1>Error: User not authenticated!</h1></div>;
+    return (
+      <div className="dashboard">
+        <h1>Error: User not authenticated!</h1>
+      </div>
+    );
   }
 
-
   const {
-    firstName = '',
-    lastName = '',
-    email = '',
-    phoneNumber = '',
-    password = '',
-    status = '',
-    category = '',
-    role = '',
-    businessType = '',
-    businessName = '',
+    firstName = "",
+    lastName = "",
+    email = "",
+    phoneNumber = "",
+    password = "",
+    status = "",
+    category = "",
+    role = "",
+    businessType = "",
+    businessName = "",
   } = user || {};
 
   return (
-    <div className='dashboard'>
+    <div className="dashboard">
       <h1>Dashboard Page</h1>
       <h3>
         <span>{`${firstName} ${lastName}`}</span>, Welcome to the dashboard!

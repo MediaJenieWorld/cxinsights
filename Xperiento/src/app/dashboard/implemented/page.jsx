@@ -1,40 +1,72 @@
+import FeedbackFooter from "@/components/ui/dashboard/PostCard/ReviewStarsFooter";
+
 import PostCard from "@/components/ui/dashboard/PostCard/PostCard";
-// import Link from "next/link";
-import "./styles.scss"
-import Image from "next/image";
-import FeedbackFooter from "@/components/ui/dashboard/PostCard/FeedbackFooter";
-import { Fragment } from "react";
+import { getImplements } from "@/utils/api";
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
+import ErrorPage from "@/ErrorPage";
+
 const ImplementationPage = () => {
+  const [actions, setActions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    const fetchActions = async () => {
+      const req = await getImplements();
+      if (req.status == 200) {
+        setActions(req.data);
+        setLoading(false);
+      } else {
+        setError(req?.data.data);
+        toast.error(req?.data.data);
+      }
+    };
+    fetchActions();
+  }, []);
+
+  if (error) {
+    return <ErrorPage message={error} />;
+  }
+
   return (
-    <div className='MyInsights'>
+    <div className="MyInsights">
       <div className="header">
         <div className="title">
-          <h3> <span>
-            MY LIST
-          </span>
+          <h3>
+            {" "}
+            <span>MY LIST</span>
             <br />
-            Ideas to Implement</h3>
+            Implemented Ideas
+          </h3>
         </div>
       </div>
       <div className="latestInsights">
         <div className="list">
-          {Array.from({ length: 10 }, (_v, id) => {
-            return <Fragment key={id}>
-              <PostCard key={id} footer={<FeedbackFooter />} isIconsVisible={true} iconOnLeft={true} />
-            </Fragment>
-          })}
-          {/* <div className="centered">
-            <button style={{
-              margin: 0
-            }} className='start'>
-              <Link style={{ textDecoration: "none", color: "inherit" }} href="/dashboard/my_insights">
-                Load More
-              </Link>
-            </button>
-          </div> */}
+          {loading ? (
+            <p>Loading...</p>
+          ) : actions.data.length > 0 ? (
+            actions.data.map((insight, index) => (
+              <div
+                onClick={() => {
+                  window.location.href = `${window.location.pathname}/${String(
+                    insight._id
+                  )}`;
+                }}
+                style={{ textDecoration: "none" }}
+                key={index}
+              >
+                <PostCard
+                  key={index}
+                  data={insight}
+                  footer={<FeedbackFooter data={insight} />}
+                />
+              </div>
+            ))
+          ) : (
+            <p>You haven&#39;t Implement anything yet</p>
+          )}
         </div>
       </div>
-
     </div>
   );
 };

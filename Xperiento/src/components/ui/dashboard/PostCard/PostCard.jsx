@@ -1,12 +1,39 @@
 import { formatDate } from "@/utils/timeFormatter";
 import "./PostCard.scss";
 
+function showImageByCategory(category) {
+  let imageUrl;
+
+  switch (category) {
+    case "Promotion":
+      imageUrl = "/assets/Card/share.png";
+      break;
+    case "Message":
+      imageUrl = "/assets/Card/message.png";
+      break;
+    case "Culture":
+      imageUrl = "/assets/Card/culture.png";
+      break;
+    case "Event":
+      imageUrl = "/assets/Card/event.png";
+      break;
+    case "Sales":
+      imageUrl = "/assets/Card/ticket.png";
+      break;
+    default:
+      imageUrl = "/assets/Card/network.png";
+      break;
+  }
+
+  return imageUrl;
+}
+
 const PostCard = ({
-  key,
   data,
   isIconsVisible,
   iconOnLeft = false,
   footer,
+  style = {},
 }) => {
   const {
     industrySegment,
@@ -40,15 +67,22 @@ const PostCard = ({
     implementNumber: 0,
   };
   const time = formatDate(createdAt);
-
+  
   return (
-    <div key={key} className="PostCard">
+    <div style={style} className="PostCard">
       <div className={iconOnLeft ? "head left" : "head"}>
         <div className="headTitleAndTime">
           <p>{insightSubCategory}</p>
           <time className="time">{time || " Jun 5th 2024 12 22 PM"}</time>
         </div>
-        <i className="pi pi-megaphone"></i>
+        {/* <i className="pi pi-megaphone"></i> */}
+        <img
+          src={showImageByCategory(insightSubCategory)}
+          height={25}
+          width={25}
+          loading="lazy"
+          alt="insight-Image-category-icon"
+        />
       </div>
       <div className="body">
         <h1 className="post_title">{insightTitle}</h1>
@@ -60,6 +94,7 @@ const PostCard = ({
 
           <p className="example">
             For example
+            <br />
             {actionItemExample}
           </p>
         </div>

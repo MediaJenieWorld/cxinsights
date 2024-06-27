@@ -2,7 +2,7 @@
 import React, { useContext, useState } from 'react';
 import "./page.css"
 import { server_base_Url } from '@/utils/temp_tokenKey';
-import { UserContext } from '@/store/UserContext';
+import { UserContext } from '@/store/User_Context';
 const InsightForm = () => {
     const { auth } = useContext(UserContext)
 

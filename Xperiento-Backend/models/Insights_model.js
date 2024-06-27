@@ -57,8 +57,15 @@ const insightSchema = new mongoose.Schema(
     comments: {
       type: [
         {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Comment",
+          author: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+          },
+          text: String,
+          createdAt: {
+            type: Date,
+            default: Date.now,
+          },
         },
       ],
       default: [],
@@ -72,9 +79,24 @@ const insightSchema = new mongoose.Schema(
       ],
       default: [],
     },
-    implementNumber: {
-      type: Number,
-      default: 0,
+    implements: {
+      type: [
+        {
+          author: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+          },
+          stars: {
+            type: Number,
+            required: true,
+          },
+          createdAt: {
+            type: Date,
+            default: Date.now,
+          },
+        },
+      ],
+      default: [],
     },
   },
   { timestamps: true }

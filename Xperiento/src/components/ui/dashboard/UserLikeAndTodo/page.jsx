@@ -1,6 +1,4 @@
-"use client";
-
-import { UserContext } from "@/store/UserContext";
+import { UserContext } from "@/store/User_Context";
 import { useContext } from "react";
 import InsightsCard from "../InsightsCard";
 
