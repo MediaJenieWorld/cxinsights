@@ -1,4 +1,3 @@
-"use client";
 import { Fragment, useContext, useState } from "react";
 import styles from "./Right.module.scss";
 import PropTypes from "prop-types";
@@ -10,9 +9,13 @@ const CustomRightDynamicDialog = ({ modelHeight, modelWidth }) => {
   const { sign_out_handler, auth } = useContext(UserContext);
   const [checked, setChecked] = useState(false);
 
+  if (!auth) {
+    return <></>;
+  }
   const toggleMenu = () => {
     setChecked((pre) => !pre);
   };
+
   const linkAction = (link) => {
     setTimeout(() => {
       window.location = link;
@@ -39,9 +42,6 @@ const CustomRightDynamicDialog = ({ modelHeight, modelWidth }) => {
     // { link: "/dashboard/create", label: "Create Insight" },
   ];
 
-  if (!auth) {
-    return <></>;
-  }
   return (
     <Fragment>
       <div>

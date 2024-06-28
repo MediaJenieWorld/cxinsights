@@ -82,7 +82,7 @@
       color:#e23c1a
     }
   }
-    .glow{
+.glow{
       position: relative;
       *{
         z-index: 3;

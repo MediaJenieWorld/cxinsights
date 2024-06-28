@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { UserContext } from "@/store/User_Context";
+import { UserContext } from "./store/User_Context";
 import { useContext } from "react";
 import LoginPage from "./app/login/page";
 import DashboardPage from "./app/dashboard/page";
@@ -11,6 +11,7 @@ import MyAction_Insight_View from "./app/dashboard/my_actions_list/Insight/Page"
 import MyTodo_Insight_View from "./app/dashboard/implemented/Insight/Page";
 import NotFound from "./NotFound";
 import InsightForm from "./app/dashboard/create/page";
+
 const App = () => {
   const { auth } = useContext(UserContext);
 
@@ -31,7 +32,6 @@ const App = () => {
               path="/dashboard/my_actions_list/:insightId"
               element={<MyAction_Insight_View />}
             />
-            <Route path="/dashboard/create" element={<InsightForm />} />
             <Route
               path="/dashboard/implemented"
               element={<ImplementationPage />}
@@ -40,6 +40,7 @@ const App = () => {
               path="/dashboard/implemented/:insightId"
               element={<MyTodo_Insight_View />}
             />
+            {/* <Route path="/dashboard/create" element={<InsightForm />} /> */}
           </>
         )}
         <Route path="*" element={<NotFound />} />

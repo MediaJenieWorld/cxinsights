@@ -17,9 +17,7 @@ const HomePage = () => {
       setUser(auth);
     }
   }, []);
- 
   return (
-
     <div className="landingPage">
       <h1>Xperiento</h1>
 
@@ -41,20 +39,14 @@ const HomePage = () => {
         <>
           {!user && (
             <Suspense fallback={() => <p>Loading....</p>}>
-              <AccountForm   user={user}/>
+              <AccountForm />
             </Suspense>
           )}
         </>
       )}
       {!isStarted && (
-        <button onClick={() => {
-          if(user){
-            window.location = "/dashboard";
-          }
-          else{
-          setIsStarted(true)}} }className="start">
+        <button onClick={() => setIsStarted(true)} className="start">
           {auth ? "Go to Dashboard" : "Get Started"}{" "}
-        
         </button>
       )}
     </div>

@@ -13,7 +13,8 @@
     text-align: center;
     background-color: var(--main-Bg);
     color: var(--primary-color);
- padding-bottom: 2rem;
+    padding-bottom: 2rem;
+
     &::before {
         content: "";
         top: 0px;
@@ -113,18 +114,46 @@
             justify-content: space-evenly;
             animation: scaleUp 1.5s forwards;
 
-            svg {
+            .box {
                 transition: all .1s ease-in-out;
-                padding: 5px;
                 border-radius: 50%;
+
+                svg {
+                    padding: 5px;
+                }
 
                 &:hover {
                     background-color: rgb(167 167 167 / 9%);
                 }
             }
+
+            .box {
+                position: relative;
+
+                #check1,
+                #check2 {
+                    position: absolute;
+                    top: 0px;
+                    right: 0px;
+                }
+            }
+
+        }
+
+        .signUp {
+            width: 100%;
+            animation: signUps .5s forwards;
+            opacity: 0;
         }
 
     }
+
+    @keyframes signUps {
+        100% {
+            opacity: 1;
+        }
+    }
+
 
     @keyframes scaleUp {
         100% {

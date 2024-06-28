@@ -67,7 +67,6 @@ const PostCard = ({
     implementNumber: 0,
   };
   const time = formatDate(createdAt);
-  
   return (
     <div style={style} className="PostCard">
       <div className={iconOnLeft ? "head left" : "head"}>

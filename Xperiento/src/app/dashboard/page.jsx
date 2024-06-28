@@ -59,7 +59,6 @@ const DashboardPage = () => {
     dashboardApis();
   }, []);
 
-  console.log("Is new", isNew);
   if (isNew == true) {
     return <ServiceBoard updateIsNewStatus={updateIsNewStatus} />;
   }

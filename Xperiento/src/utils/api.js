@@ -74,6 +74,10 @@ export const getInsights = async () => {
   return handleRequest(() => instance.get("insights"));
 };
 
+export const createInsightsPost = async (formData) => {
+  return handleRequest(() => instance.post("insights", formData));
+};
+
 export const getSingleInsights = async (id) => {
   return handleRequest(() => instance.post("insights/getInsight", { id }));
 };
