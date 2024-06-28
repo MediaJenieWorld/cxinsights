@@ -22,11 +22,7 @@ const AccountForm = () => {
   });
 
   const [isCreatingAccount, setIsCreatingAccount] = useState(false);
-<<<<<<< HEAD
   const [businessType, setBusinessType] = useState(null);
-=======
- const [businessType, setBusinessType] = useState(null);
->>>>>>> c4785d7288247e7cc11b5c509989e1557b25ea33
 
   useEffect(() => {
     reset();
@@ -40,17 +36,10 @@ const AccountForm = () => {
   };
 
   const onSubmit = async (data) => {
-<<<<<<< HEAD
     if (!businessType && isCreatingAccount)
       return toast.warn("Please choose business type!!!");
     const { email, password, businessName, phoneNumber, firstName, lastName } =
       data;
-=======
-  if(! businessType){
-      return toast.warn("Please...") }
-         const { email, password, businessName, phoneNumber, firstName, lastName } = 
-           data;
->>>>>>> c4785d7288247e7cc11b5c509989e1557b25ea33
     if (!password || !phoneNumber) return;
     setLoading(true);
 
