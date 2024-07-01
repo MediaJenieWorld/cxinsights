@@ -75,8 +75,17 @@ const PostCard = ({
           <time className="time">{time || " Jun 5th 2024 12 22 PM"}</time>
         </div>
         {/* <i className="pi pi-megaphone"></i> */}
-        <img
+{/*         <img
           src={showImageByCategory(insightSubCategory)}
+          height={25}
+          width={25}
+          loading="lazy"
+          alt="insight-Image-category-icon"
+        /> */}
+
+
+          <img
+          src={iconURL}
           height={25}
           width={25}
           loading="lazy"
