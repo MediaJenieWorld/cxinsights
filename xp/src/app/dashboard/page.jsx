@@ -16,6 +16,7 @@ const ServiceBoard = lazy(() =>
 const DashboardPage = () => {
   const [insightsArray, setInsightsArray] = useState(null);
   const [myCounts, setMyCounts] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState({
     insight: null,
     todo: null,
@@ -28,6 +29,7 @@ const DashboardPage = () => {
       const track = sessionStorage.getItem("isNew");
       const isTrue = track ? true : false;
       updateIsNewStatus(isTrue);
+      setIsLoading(false);
     }
   }, []);
 
@@ -59,6 +61,10 @@ const DashboardPage = () => {
     dashboardApis();
   }, []);
 
+  if (isLoading) {
+    return <div className="loader">Loading....</div>;
+  }
+
   if (isNew == true) {
     return <ServiceBoard updateIsNewStatus={updateIsNewStatus} />;
   }
@@ -69,6 +75,21 @@ const DashboardPage = () => {
   if (insightsArray === null || myCounts === null) {
     return <h1>Loading...</h1>;
   }
+// <<<<<<< Updated upstream
+// =======
+
+// >>>>>>> Stashed changes
+  const allInsightsCount = [
+    "Marketing",
+    "Behaviour",
+    "Price",
+    "Complaint",
+    "Sales",
+ ];
+// <<<<<<< Updated upstream
+
+// =======
+// >>>>>>> Stashed changes
   return (
     <div className="Dashboard">
       <div className="header">
@@ -96,17 +117,27 @@ const DashboardPage = () => {
         </div>
       </div>
       <div className="Insights">
-        {/* {allInsightsCount.map((label, i) => {
-          return <InsightsCard key={i} insightNumber={res?.counts[label] || 0} label={label} />
-        })} */}
+        {allInsightsCount.map((label, i) => {
+// <<<<<<< Updated upstream
+          return (
+            <InsightsCard
+              key={i}
+              insightNumber={insightsArray?.counts[label] || 0}
+              label={label}
+            />
+          );
+// =======
+          return <InsightsCard key={i} insightNumber={insightsArray?.counts[label] || 0} label={label} />
+// >>>>>>> Stashed changes
+        })}
         {/* USE THIS WHEN TO SHOW ONLY AVAILABLE INSIGHTS CATEGORY */}
-        {Object.keys(insightsArray.counts).map((key, index) => (
+        {/* {Object.keys(insightsArray.counts).map((key, index) => (
           <InsightsCard
             key={index}
             insightNumber={insightsArray.counts[key]}
             label={key}
           />
-        ))}
+        ))} */}
       </div>
       <MyTodoAndLikeCount data={myCounts} />
       <div className="latestInsights">

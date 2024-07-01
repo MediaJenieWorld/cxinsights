@@ -18,7 +18,6 @@ const TodoPostFooter = ({ data }) => {
       if (req.status === 200) {
         setImplement((pre) => !pre);
         toast.success("Saved to the implement Successfully!!");
-        location = "/dashboard/implemented";
       } else {
         toast.error(req.data.data || "Error Occured");
       }

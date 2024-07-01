@@ -50,6 +50,13 @@
         }
     }
 
+    .NewPassword {
+        input {
+            border-radius: 0px;
+            color: var(--main-Bg) !important;
+            border-bottom: 1px solid var(--main-Bg) !important;
+        }
+    }
 
     h1 {
         font-size: 36px;
@@ -82,6 +89,7 @@
         transform-origin: center center;
         animation: scaleUp 1.5s forwards;
 
+
         .flex-column {
             position: relative;
             padding-top: 1rem;
@@ -106,6 +114,17 @@
 
                 }
             }
+
+            input[type=number]::-webkit-inner-spin-button,
+            input[type=number]::-webkit-outer-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+            input[type=number] {
+                -moz-appearance: textfield;
+            }
+
         }
 
         .radio-btn {
@@ -146,6 +165,22 @@
             opacity: 0;
         }
 
+        .forgot {
+            color: var(--star-color);
+            width: 100%;
+            font-weight: 600;
+            cursor: pointer;
+
+            >* {
+                color: var(--star-color);
+                width: max-content;
+                float: inline-end;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
     }
 
     @keyframes signUps {

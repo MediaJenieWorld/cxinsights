@@ -11,10 +11,12 @@ import FeedbackFooter from "@/components/ui/dashboard/PostCard/ReviewStarsFooter
 function Comment({ data }) {
   const {
     author: { firstName, lastName },
-    text,
-    createdAt,
+    text = "Error",
+    createdAt = "Error",
   } = data;
 
+  // const username = author || { firstName: "Error", lastName: "Error" };
+  // const { firstName, lastName } = username;
   return (
     <>
       <p className="time">{formatDate(createdAt)}</p>
@@ -27,46 +29,23 @@ function Comment({ data }) {
 const MyTodo_Insight_View = () => {
   const { insightId } = useParams();
   const [insightData, setInsightData] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [comments, setComments] = useState([
-    {
-      author: {
-        firstName: "Kartik",
-        lastName: "Saini",
-      },
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae perspiciatis unde labore officiis, minus vel obcaecati dolore ratione. Non esse aliquid magni. ",
-    },
-    {
-      author: {
-        firstName: "Preet",
-        lastName: "Saini",
-      },
-      text: "This is a sample comment",
-    },
-    {
-      author: {
-        firstName: "Harsh",
-        lastName: "Saini",
-      },
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae perspiciatis unde labore officiis, minus vel obcaecati dolore ratione. Non esse aliquid magni. ",
-    },
-  ]);
+  const [comments, setComments] = useState([]);
   const { register, setValue, handleSubmit } = useForm();
 
   useEffect(() => {
     const fetchActions = async () => {
-      setLoading(true);
       try {
         const req = await getSingleInsights(insightId);
         if (req.status === 200) {
           setInsightData(req.data.data);
           setComments(req.data.data.comments);
         } else {
-          setError("Error fetching single insight");
+          setError("Error while fetching this insight");
         }
       } catch (error) {
-        setError("Error fetching single insight");
+        setError("Error while fetching this insight");
       } finally {
         setLoading(false);
       }
@@ -112,7 +91,13 @@ const MyTodo_Insight_View = () => {
             maxWidth: "unset",
           }}
           data={insightData}
-          footer={<FeedbackFooter disableActions={true} data={insightData} />}
+          footer={
+            <FeedbackFooter
+              isCommentIconHidden={true}
+              disableActions={true}
+              data={insightData}
+            />
+          }
         />
       )}
       <div className="formAndComments">

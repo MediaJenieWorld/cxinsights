@@ -1,10 +1,12 @@
-"use client";
 
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { login, signUp } from "@/utils/api";
 import { toast } from "react-toastify";
 import { UserContext } from "@/store/User_Context";
+import { Link } from "react-router-dom";
+import VerifyEmail_Box from "./EmailVerify";
+import { sendCodeToEmailHandler } from "@/utils/api";
 
 const AccountForm = () => {
   const { signInHandler } = useContext(UserContext);
@@ -12,16 +14,18 @@ const AccountForm = () => {
   const {
     register,
     handleSubmit,
-    reset,
+    reset, getValues,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      phoneNumber: "2589637410",
-      password: "App1234",
+      phoneNumber: "",
+      password: "",
     },
   });
 
   const [isCreatingAccount, setIsCreatingAccount] = useState(false);
+  const [verifyModelState, setVerifyModelState] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
   const [businessType, setBusinessType] = useState(null);
 
   useEffect(() => {
@@ -36,17 +40,24 @@ const AccountForm = () => {
   };
 
   const onSubmit = async (data) => {
+
     if (!businessType && isCreatingAccount)
       return toast.warn("Please choose business type!!!");
     const { email, password, businessName, phoneNumber, firstName, lastName } =
       data;
     if (!password || !phoneNumber) return;
+    if (isCreatingAccount && !isVerified) {
+      return await sendCodeToEmail(email)
+    }
+
     setLoading(true);
 
     let res;
     if (!isCreatingAccount) {
       res = await login({ id: phoneNumber, password });
     } else if (isCreatingAccount) {
+      if (!isVerified) return toast.error("Email haven't verified yet")
+      if (isVerified !== email) return toast.error(`Verified Email (${isVerified}) not matching with this email`)
       res = await signUp({
         firstName,
         lastName,
@@ -73,6 +84,28 @@ const AccountForm = () => {
     setLoading(false);
   };
 
+  async function sendCodeToEmail(email) {
+    toast.info(`Sending code to your ${email} email address.`)
+    if (email == "" || loading) return toast.error("Email is required");
+    try {
+      setLoading(true);
+      const response = await sendCodeToEmailHandler({ email });
+      if (response.data.success === true) {
+        toast.success(response.data.data);
+        setVerifyModelState(true)
+      } else {
+        toast.error(response.data.data);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+    setLoading(false);
+  }
+
+  if (verifyModelState) {
+    return <VerifyEmail_Box getValues={getValues} setVerifyModelState={setVerifyModelState} setIsVerified={setIsVerified} />
+  }
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -89,20 +122,23 @@ const AccountForm = () => {
                 {...register("firstName", {
                   required: "First Name is required",
                   maxLength: {
-                    value: 30,
-                    message: "First Name cannot exceed 30 characters",
+                    value: 15,
+                    message: "First Name cannot exceed 15 characters",
                   },
                   pattern: {
-                    value: /^[A-Z][a-zA-Z0-9]*$/,
+                    value: /^[A-Z][a-zA-Z]*$/,
                     message:
-                      "First Name must start with an uppercase letter and can only contain letters (uppercase and lowercase) and digits",
+                      "First Name must start with an uppercase letter and can only contain letters (uppercase and lowercase)",
                   },
                 })}
                 id="firstName"
                 type="text"
               />
+
               {errors.firstName && (
-                <span style={{ fontSize: ".7rem", color: "red" }}>
+                <span
+                  style={{ fontSize: ".7rem", fontWeight: "700", color: "red" }}
+                >
                   {errors.firstName.message || "Validation Error"}
                 </span>
               )}
@@ -113,20 +149,22 @@ const AccountForm = () => {
                 {...register("lastName", {
                   required: "Last Name is required",
                   maxLength: {
-                    value: 30,
-                    message: "Last Name cannot exceed 30 characters",
+                    value: 15,
+                    message: "Last Name cannot exceed 15 characters",
                   },
                   pattern: {
-                    value: /^[A-Z][a-zA-Z0-9]*$/,
+                    value: /^[A-Z][a-zA-Z]*$/,
                     message:
-                      "Last Name must start with an uppercase letter and can only contain letters (uppercase and lowercase) and digits",
+                      "Last Name must start with an uppercase letter and can only contain letters (uppercase and lowercase)",
                   },
                 })}
                 id="lastName"
                 type="text"
               />
               {errors.lastName && (
-                <span style={{ fontSize: ".7rem", color: "red" }}>
+                <span
+                  style={{ fontSize: ".7rem", fontWeight: "700", color: "red" }}
+                >
                   {errors.lastName.message || "Validation Error"}
                 </span>
               )}
@@ -143,9 +181,12 @@ const AccountForm = () => {
                 })}
                 id="email"
                 type="email"
+                disabled={isVerified}
               />
               {errors.email && (
-                <span style={{ fontSize: ".7rem", color: "red" }}>
+                <span
+                  style={{ fontSize: ".7rem", fontWeight: "700", color: "red" }}
+                >
                   {errors.email.message || "Validation Error"}
                 </span>
               )}
@@ -165,7 +206,9 @@ const AccountForm = () => {
                 type="text"
               />
               {errors.businessName && (
-                <span style={{ fontSize: ".7rem", color: "red" }}>
+                <span
+                  style={{ fontSize: ".7rem", fontWeight: "700", color: "red" }}
+                >
                   {errors.businessName.message || "Validation Error"}
                 </span>
               )}
@@ -177,26 +220,27 @@ const AccountForm = () => {
           <input
             {...register("phoneNumber", {
               required: "Phone Number is required",
-
               pattern: {
-                value: /^\d{10,12}$/,
+                value: /^\d{10}$/,
                 message:
-                  "Phone number must be between 10 to 12 digits and contain only numbers",
+                  "Phone number must be exactly 10 digits and contain only numbers",
               },
               minLength: {
                 value: 10,
-                message: "Phone number must be at least 10 digits long",
+                message: "Phone number must be exactly 10 digits long",
               },
               maxLength: {
-                value: 12,
-                message: "Phone number cannot exceed 12 digits in length",
+                value: 10,
+                message: "Phone number must be exactly 10 digits long",
               },
             })}
             id="phoneNumber"
             type="number"
           />
           {errors.phoneNumber && (
-            <span style={{ fontSize: ".7rem", color: "red" }}>
+            <span
+              style={{ fontSize: ".7rem", fontWeight: "700", color: "red" }}
+            >
               {errors.phoneNumber.message}
             </span>
           )}
@@ -205,7 +249,6 @@ const AccountForm = () => {
           <label htmlFor="password">Password</label>
           <input
             {...register("password", {
-              value: true,
               required: "Password is required",
               pattern: {
                 value: /^[A-Z][^\s]{5,}$/,
@@ -224,11 +267,18 @@ const AccountForm = () => {
             type="password"
           />
           {errors.password && (
-            <span style={{ fontSize: ".7rem", color: "red" }}>
+            <span
+              style={{ fontSize: ".7rem", fontWeight: "700", color: "red" }}
+            >
               {errors.password.message || "Validation Error"}
             </span>
           )}
         </div>
+        {!isCreatingAccount && (
+          <div className="forgot">
+            <Link to={"/forgot_password"}>forgot password? </Link>
+          </div>
+        )}
 
         {isCreatingAccount && (
           <div data-state={isCreatingAccount} className="radio-btn">
@@ -345,11 +395,11 @@ const AccountForm = () => {
           </button>
         ) : (
           <button className="start" type="submit">
-            {isCreatingAccount ? "Create Account" : "Log In"}
+            {isCreatingAccount ? isVerified ? "Create Account" : "Verify Email" : "Log In"}
           </button>
         )}
         <button onClick={toggleForm} type="button" className="link">
-          {!isCreatingAccount ? "Create Account" : "Login Account"}
+          {!isCreatingAccount ? "Create Account" : "Login?"}
         </button>
       </form>
     </>
