@@ -94,6 +94,7 @@ const PostCard = ({
       </div>
       <div className="body">
         <h1 className="post_title">{insightTitle}</h1>
+         <p className="example" >{insightDescription}</p>
         <div className="action">
           <div className="action_head">
             <p className="star">Action</p>
