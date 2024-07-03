@@ -4,7 +4,7 @@ const Insight = require("../models/Insights_model");
 const User = require("../models/User_Customer");
 
 // Route to add a new insight
-router.post("/", async (req, res) => {
+router.post("/new_insight", async (req, res) => {
   try {
     const payload = req.body;
 
@@ -49,8 +49,22 @@ router.post("/getInsight", async (req, res) => {
 // Route to get all insights
 router.get("/", async (req, res) => {
   try {
-    const insights = await Insight.find().sort({ createdAt: -1 });
-    res.json({ data: insights, success: true });
+    let { skip = 0 } = req.query;
+
+    if (isNaN(skip) || parseInt(skip) > 120) {
+      return res.status(400).json({
+        data: "Skip must be a number and less than or equal to 100",
+        success: false,
+      });
+    }
+    const totalInsights = await Insight.countDocuments();
+
+    const insights = await Insight.find()
+      .sort({ createdAt: -1 })
+      .skip(parseInt(skip))
+      .limit(10)
+      .lean();
+    res.json({ data: insights, success: true, totalInsights });
   } catch (error) {
     res.status(500).json({ data: error.message, success: false });
   }
@@ -69,7 +83,10 @@ router.get("/counts", async (req, res) => {
       const count = await Insight.countDocuments({ insightCategory: category });
       categoryCounts[category] = count;
     }
-    const insights = await Insight.find().sort({ createdAt: -1 }).lean();
+    const insights = await Insight.find()
+      .sort({ createdAt: -1 })
+      .limit(5)
+      .lean();
 
     res
       .status(200)

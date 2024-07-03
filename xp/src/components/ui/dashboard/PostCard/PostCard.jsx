@@ -76,7 +76,7 @@ const PostCard = ({
         </div>
         {/* <i className="pi pi-megaphone"></i> */}
         <img
-          src={showImageByCategory(insightSubCategory)}
+          src={iconURL || "/assets/Card/network.png"}
           height={25}
           width={25}
           loading="lazy"
@@ -85,6 +85,7 @@ const PostCard = ({
       </div>
       <div className="body">
         <h1 className="post_title">{insightTitle}</h1>
+        <p className="example">{insightDescription}</p>
         <div className="action">
           <div className="action_head">
             <p className="star">Action</p>
