@@ -81,7 +81,7 @@ const PostCard = ({
 
 {/*         <img
           src={showImageByCategory(insightSubCategory)}
->>>>>>> cf5e55b6ebcc8386e3f5323952e30afcf55ff4d4
+
           height={25}
           width={25}
           loading="lazy"
