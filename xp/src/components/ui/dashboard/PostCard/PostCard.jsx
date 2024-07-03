@@ -75,8 +75,22 @@ const PostCard = ({
           <time className="time">{time || " Jun 5th 2024 12 22 PM"}</time>
         </div>
         {/* <i className="pi pi-megaphone"></i> */}
+<<<<<<< HEAD
         <img
           src={iconURL || "/assets/Card/network.png"}
+=======
+{/*         <img
+          src={showImageByCategory(insightSubCategory)}
+>>>>>>> cf5e55b6ebcc8386e3f5323952e30afcf55ff4d4
+          height={25}
+          width={25}
+          loading="lazy"
+          alt="insight-Image-category-icon"
+        /> */}
+
+
+          <img
+          src={iconURL}
           height={25}
           width={25}
           loading="lazy"
@@ -85,7 +99,11 @@ const PostCard = ({
       </div>
       <div className="body">
         <h1 className="post_title">{insightTitle}</h1>
+<<<<<<< HEAD
         <p className="example">{insightDescription}</p>
+=======
+         <p className="example" >{insightDescription}</p>
+>>>>>>> cf5e55b6ebcc8386e3f5323952e30afcf55ff4d4
         <div className="action">
           <div className="action_head">
             <p className="star">Action</p>
