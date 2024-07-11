@@ -111,7 +111,15 @@
                 }
             }
 
-            input {
+            label{
+                display: block;
+
+            }
+            option{
+                color:black;
+            }
+
+            input, select {
                 width: 100%;
                 background-color: transparent;
                 padding: 6px 0px;

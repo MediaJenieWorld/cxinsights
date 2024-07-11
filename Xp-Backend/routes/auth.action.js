@@ -135,7 +135,15 @@ router.post("/forgotpassword", async (req, res) => {
 router.post("/sendCodeToEmail", async (req, res) => {
   try {
     const { email } = req.body;
+    const existingUser = await User.findOne({
+email    });
 
+    if (existingUser) {
+      return res.status(409).json({
+        success: false,
+        data: "Email is already registered. Please login",
+      });
+    }
     const token = jwt.sign({ email }, encodeKey, {
       expiresIn: "10m",
     });

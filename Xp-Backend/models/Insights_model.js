@@ -17,6 +17,9 @@ const insightSchema = new mongoose.Schema(
     iconURL: {
       type: String,
     },
+    imgUrl: {
+      type: String,
+    },
     insightLevel: {
       type: String,
     },

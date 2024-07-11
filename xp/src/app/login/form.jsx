@@ -7,14 +7,20 @@ import { Link } from "react-router-dom";
 import VerifyEmail_Box from "./EmailVerify";
 import { sendCodeToEmailHandler } from "@/utils/api";
 import PasswordInput from "./PasswordInput";
+import AddressForm from "./AddressForm";
 
 const AccountForm = () => {
   const { signInHandler } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
+
+  const [country, setCountry] = useState(''); // default country
+  const [state, setState] = useState(''); // default state
+  const [city, setCity] = useState(''); // default city
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     getValues,
     formState: { errors },
   } = useForm({
@@ -70,6 +76,9 @@ const AccountForm = () => {
         phoneNumber,
         industrySegment: businessName,
         organization: businessType,
+        country: data.country,
+        state: data.state,
+        city: data.city
       });
       sessionStorage.setItem("isNew", true);
     }
@@ -236,32 +245,32 @@ const AccountForm = () => {
               "phoneNumber",
               isCreatingAccount === false
                 ? {
-                    required: "Field is Required",
-                    maxLength: {
-                      value: 40,
-                      message: "Field Limit length excced 40",
-                    },
-                    minLength: {
-                      value: 4,
-                      message: "Input length must be greater than 4",
-                    },
-                  }
+                  required: "Field is Required",
+                  maxLength: {
+                    value: 40,
+                    message: "Field Limit length excced 40",
+                  },
+                  minLength: {
+                    value: 4,
+                    message: "Input length must be greater than 4",
+                  },
+                }
                 : {
-                    required: "Phone Number is required",
-                    pattern: {
-                      value: /^\d{10}$/,
-                      message:
-                        "Phone number must be exactly 10 digits and contain only numbers",
-                    },
-                    minLength: {
-                      value: 10,
-                      message: "Phone number must be exactly 10 digits long",
-                    },
-                    maxLength: {
-                      value: 10,
-                      message: "Phone number must be exactly 10 digits long",
-                    },
-                  }
+                  required: "Phone Number is required",
+                  pattern: {
+                    value: /^\d{10}$/,
+                    message:
+                      "Phone number must be exactly 10 digits and contain only numbers",
+                  },
+                  minLength: {
+                    value: 10,
+                    message: "Phone number must be exactly 10 digits long",
+                  },
+                  maxLength: {
+                    value: 10,
+                    message: "Phone number must be exactly 10 digits long",
+                  },
+                }
             )}
             id="phoneNumber"
             type={isCreatingAccount === true ? "number" : "text"}
@@ -285,6 +294,8 @@ const AccountForm = () => {
             </span>
           )}
         </div>
+        {isCreatingAccount && <AddressForm stateData={{ country, setCountry, setCity, city, state, setState }} isCreatingAccount={isCreatingAccount} setValue={setValue} errors={errors} register={register} />}
+
         {!isCreatingAccount && (
           <div className="forgot">
             <Link to={"/forgot_password"}>forgot password? </Link>

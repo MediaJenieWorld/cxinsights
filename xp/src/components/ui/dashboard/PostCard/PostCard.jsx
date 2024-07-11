@@ -1,6 +1,9 @@
 import { formatDate } from "@/utils/timeFormatter";
 import "./PostCard.scss";
-
+import { lazy, Suspense } from "react";
+const Custom_Centered_DynamicDialog = lazy(() =>
+  import("../../Dialog/Center_Dialog")
+);
 function showImageByCategory(category) {
   let imageUrl;
 
@@ -29,7 +32,9 @@ function showImageByCategory(category) {
 }
 
 const PostCard = ({
+  
   data,
+
   isIconsVisible,
   iconOnLeft = false,
   footer,
@@ -47,11 +52,69 @@ const PostCard = ({
     insightActionItem,
     actionItemExample,
     createdAt,
-  } = data || {
+    imgUrl,
+  } = data || dummyInsightData();
+  const time = formatDate(createdAt);
+
+  console.log(data.imgUrl);
+  return (
+    <div style={style} className="PostCard">
+      <div className={iconOnLeft ? "head left" : "head"}>
+        <div className="headTitleAndTime">
+          <p>{insightSubCategory}</p>
+          <time className="time">{time || " Jun 5th 2024 12 22 PM"}</time>
+        </div>
+        {/* <i className="pi pi-megaphone"></i> */}
+        <img
+          src={iconURL || "/assets/Card/network.png"}
+          height={25}
+          width={25}
+          loading="lazy"
+          alt="insight-Image-category-icon"
+        />
+      </div>
+      <div className="body">
+        <h1 className="post_title">{insightTitle}</h1>
+        <p className="post_description">{insightDescription}</p>
+        <div className="action">
+          <div className="action_head">
+            <p className="star">Action</p>
+            <p className="action_title">{insightActionItem}</p>
+          </div>
+
+          <p className="example">
+            For example
+            <br />
+            {actionItemExample}
+          </p>
+        </div>
+        {data?.imgUrl && (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Custom_Centered_DynamicDialog label ="view image" >
+              <img
+                src={data?.imgUrl || "image_not_found."}
+                height={350}
+                width={350}
+                alt={insightTitle + " insight-image"}
+              />
+            </Custom_Centered_DynamicDialog>
+          </Suspense>
+        )}
+      </div>
+      {footer}
+    </div>
+  );
+};
+
+export default PostCard;
+
+function dummyInsightData() {
+  return {
     industrySegment: "Restaurant",
     insightCategory: "Behaviour",
     insightSubCategory: "Promotion",
     iconURL: "/pro",
+    imgUrl: "/assets/gradient-bg.png",
     insightDataURL: "xyz",
     insightLevel: "All",
     insightTitle: "Promotion Title2",
@@ -66,60 +129,4 @@ const PostCard = ({
     totalBookmarks: 0,
     implementNumber: 0,
   };
-  const time = formatDate(createdAt);
-  return (
-    <div style={style} className="PostCard">
-      <div className={iconOnLeft ? "head left" : "head"}>
-        <div className="headTitleAndTime">
-          <p>{insightSubCategory}</p>
-          <time className="time">{time || " Jun 5th 2024 12 22 PM"}</time>
-        </div>
-        {/* <i className="pi pi-megaphone"></i> */}
-<<<<<<< HEAD
-        <img
-          src={iconURL || "/assets/Card/network.png"}
-=======
-{/*         <img
-          src={showImageByCategory(insightSubCategory)}
->>>>>>> cf5e55b6ebcc8386e3f5323952e30afcf55ff4d4
-          height={25}
-          width={25}
-          loading="lazy"
-          alt="insight-Image-category-icon"
-        /> */}
-
-
-          <img
-          src={iconURL}
-          height={25}
-          width={25}
-          loading="lazy"
-          alt="insight-Image-category-icon"
-        />
-      </div>
-      <div className="body">
-        <h1 className="post_title">{insightTitle}</h1>
-<<<<<<< HEAD
-        <p className="example">{insightDescription}</p>
-=======
-         <p className="example" >{insightDescription}</p>
->>>>>>> cf5e55b6ebcc8386e3f5323952e30afcf55ff4d4
-        <div className="action">
-          <div className="action_head">
-            <p className="star">Action</p>
-            <p className="action_title">{insightActionItem}</p>
-          </div>
-
-          <p className="example">
-            For example
-            <br />
-            {actionItemExample}
-          </p>
-        </div>
-      </div>
-      {footer}
-    </div>
-  );
-};
-
-export default PostCard;
+}
