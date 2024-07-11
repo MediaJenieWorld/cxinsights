@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+require('dotenv').config();
 
 
 const app = express();
@@ -16,11 +17,8 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Connect to MongoDB
-const cloudUrl =
-  "mongodb+srv://deepshikhareact:user123@cluster0.ynyzkrk.mongodb.net/xperimento?retryWrites=true&w=majority&appName=Cluster0";
 const localUrl = "mongodb://localhost:27017/xperimento";
-
-const url = localUrl;
+const cloudUrl = process.env.CLOUD_URL || localUrl;
 
 mongoose.connect(cloudUrl, {
   useNewUrlParser: true,
