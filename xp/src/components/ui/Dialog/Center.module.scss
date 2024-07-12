@@ -9,8 +9,7 @@
 
     .box {
         padding: 3px 8px;
-        background-color: var(--star-color);
-        color: var(--main-Bg);
+        color: var(--star-color);
         font-size: .8rem;
         border-radius: 3px;
         float: right;
@@ -86,6 +85,7 @@
 
         .box {
             background-color: orange;
+            color: white;
         }
 
         .closeLayer {

@@ -49,23 +49,38 @@ router.post("/getInsight", async (req, res) => {
 // Route to get all insights
 router.get("/", async (req, res) => {
   try {
-    let { skip = 0 } = req.query;
+    let { skip = 0, race, age } = req.query;
+    let query = {};
 
-    if (isNaN(skip) || parseInt(skip) > 120) {
+    if (isNaN(skip)) {
       return res.status(400).json({
         data: "Skip must be a number and less than or equal to 100",
         success: false,
       });
     }
-    const totalInsights = await Insight.countDocuments();
 
-    const insights = await Insight.find()
+    if (race) {
+      query.race = race;
+    }
+
+    if (age) {
+      const ageArr = age.trim().split("-");
+      const greaterThan = ageArr[0];
+      const lessthan = ageArr[1];
+      query.age = { $gte: greaterThan, $lte: lessthan };
+    }
+
+    const totalInsights = await Insight.countDocuments(query);
+
+    const insights = await Insight.find(query)
       .sort({ createdAt: -1 })
       .skip(parseInt(skip))
       .limit(10)
       .lean();
+
     res.json({ data: insights, success: true, totalInsights });
   } catch (error) {
+    console.log("error === >", error.message);
     res.status(500).json({ data: error.message, success: false });
   }
 });

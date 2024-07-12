@@ -87,7 +87,7 @@ const PostCard = ({
         </div>
         {data?.imgUrl && (
           <Suspense fallback={<div>Loading...</div>}>
-            <Custom_Centered_DynamicDialog label="view image">
+            <Custom_Centered_DynamicDialog label="Preview Image">
               <img
                 src={data?.imgUrl || "image_not_found."}
                 height={350}

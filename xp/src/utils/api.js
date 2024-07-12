@@ -70,8 +70,8 @@ export const getDashboard = async () => {
   return handleRequest(() => instance.get("insights/counts"));
 };
 
-export const getInsights = async (skip) => {
-  return handleRequest(() => instance.get("insights?skip=" + skip));
+export const getInsights = async (query) => {
+  return handleRequest(() => instance.get("insights?" + query));
 };
 
 export const createInsightsPost = async (formData) => {

@@ -9,20 +9,29 @@ import ErrorPage from "@/ErrorPage";
 const MyInsightsPage = () => {
   const [insightsData, setInsightsArray] = useState(null);
   const [error, setError] = useState(null);
+  const [activeFilters, setActiveFilters] = useState({
+    race: "",
+    age: "",
+    skip: 0
+  });
 
   useEffect(() => {
-    loadMoreInsights();
-  }, []);
+    loadMoreInsights(true);
+  }, [activeFilters]);
 
-  async function loadMoreInsights() {
+  async function loadMoreInsights(isfilterChange) {
     let skip = insightsData !== null ? insightsData.data.length : 0;
-    const response = await getInsights(skip);
+    if (isfilterChange) {
+      skip = 0
+    }
+    const query = generateQuery({ ...activeFilters, skip });
+    const response = await getInsights(query);
     const res = response.data;
     if (response.status === 200) {
       if (res.data.length == 0) {
         toast.error("No more insights to show");
       }
-      if (insightsData !== null) {
+      if (insightsData !== null && !isfilterChange) {
         setInsightsArray({
           ...insightsData,
           data: [...insightsData.data, ...res.data],
@@ -43,16 +52,32 @@ const MyInsightsPage = () => {
     return <h1>Loading</h1>;
   }
 
-  const filter_Options = [
-    { label: "select filter", value: "" },
+  const raceFilter = [
+    { label: "select race", value: "" },
     { label: "Asian", value: "Asian" },
     { label: "American", value: "American" },
     { label: "European", value: "European" },
     { label: "Hispanic", value: "Hispanic" },
+    { label: "African", value: "African" },
+    { label: "Alaska Native", value: "Alaska Native" },
+    { label: "Latino", value: "Latino" },
+  ]
+
+  const ageFilter = [
+    { label: "select age group", value: "" },
     { label: "Age Group 25-35", value: "25-35" },
     { label: "Age Group 35-55", value: "35-55" },
     { label: "Age Group 55-65", value: "55-65" },
+    { label: "Age Group 65-75", value: "65-75" },
   ]
+
+  function filterChangeHandler(key, value) {
+    setActiveFilters(pre => {
+      const newObj = { ...pre }
+      newObj[key] = value
+      return newObj
+    })
+  }
   return (
     <div className="MyInsights">
       <div className="header">
@@ -86,9 +111,17 @@ const MyInsightsPage = () => {
           </i>
         </h3>
         <div className="filter_div">
-          <select name="filter" id="filter">
+          <select name="race_filter" id="race_filter" value={activeFilters.race} onChange={(e) => filterChangeHandler("race", e.target.value)}>
             {
-              filter_Options.map((opt) => {
+              raceFilter.map((opt) => {
+                return <option key={opt.value} value={opt.value}>{opt.label}</option>
+              })
+            }
+          </select>
+
+          <select name="age_filter" id="age_filter" value={activeFilters.age} onChange={(e) => filterChangeHandler("age", e.target.value)}>
+            {
+              ageFilter.map((opt) => {
                 return <option key={opt.value} value={opt.value}>{opt.label}</option>
               })
             }
@@ -137,3 +170,18 @@ const MyInsightsPage = () => {
 };
 
 export default MyInsightsPage;
+
+function generateQuery(activeFilters) {
+  const query = Object.keys(activeFilters)
+    .map(key => {
+      if (activeFilters[key] !== "") {
+        return `${key}=${activeFilters[key]}`;
+      }
+      return '';
+    })
+    .filter(Boolean)
+    .join('&');
+
+  return query;
+}
+

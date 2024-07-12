@@ -28,41 +28,43 @@
         margin: 0 auto;
         padding: 10px 20px;
         display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
         justify-content: space-between;
         align-items: center;
-        background-color: rgb(193 193 193);
         max-width: 600px;
         border-radius: 10px;
+
         // border-radius: calc(10px * 2.5);
+        .filter_div {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
 
-        span {
-            color: var(--star-color);
-        }
-
-
-        select {
-            width: 100%;
-            background-color: transparent;
-            padding: 6px 0px;
-            border: none;
-            outline: none;
-            color: var(--main-Bg);
-            font-size: 14px;
-            border-bottom: 1px solid #FFF;
-            transition: border-color .3s ease-in-out;
-            background-color: rgb(245, 245, 220);
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-family: Oxygen;
-
-            option {
+            select {
+                width: max-content;
+                padding: 6px 0px;
+                // border: none;
+                outline: none;
+                color: var(--main-Bg);
+                font-size: 14px;
+                border: 2px solid #FFF;
+                transition: border-color .3s ease-in-out;
+                background-color: #eaead7;
+                padding: 8px 10px;
+                border-radius: 35px;
                 font-family: Oxygen;
-            }
 
-            &:focus-within {
-                border-color: var(--star-color);
+                option {
+                    font-family: Oxygen;
+                }
+
+                &:focus-within {
+                    border-color: var(--star-color);
+                }
             }
         }
+
     }
 
     .latestInsights {

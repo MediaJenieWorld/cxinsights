@@ -4,40 +4,86 @@ const insightSchema = new mongoose.Schema(
   {
     industrySegment: {
       type: String,
+      default: "",
+      required: true,
     },
     insightCategory: {
       type: String,
       enum: ["Marketing", "Behaviour", "Price", "Complaint", "Sales"],
+      required: true,
       default: "Marketing",
     },
     insightSubCategory: {
       type: String,
+      default: "",
+      required: true,
       // Promotional, Message Opportunity, Higher Ticket Sale
     },
     iconURL: {
       type: String,
+      default: "",
+      required: true,
     },
     imgUrl: {
       type: String,
     },
     insightLevel: {
       type: String,
+      default: "",
+      required: true,
     },
     insightTitle: {
       type: String,
+      default: "",
+      required: true,
     },
     insightDescription: {
       type: String,
+      default: "",
+      required: true,
     },
     insightActionItem: {
       type: String,
+      default: "",
+      required: true,
     },
     actionItemExample: {
       type: String,
+      default: "",
+      required: true,
+    },
+    insightActionItem: {
+      type: String,
+      default: "",
+      required: true,
+    },
+    actionItemExample: {
+      type: String,
+      default: "",
+      required: true,
+    },
+    age: {
+      type: String,
+      default: "",
+      required: true,
+    },
+    race: {
+      type: String,
+      enum: [
+        "American",
+        "European",
+        "Asian",
+        "Hispanic",
+        "African",
+        "Alaska Native",
+        "Latino",
+      ],
+      required: true,
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+      required: true,
     },
     likes: {
       type: [
