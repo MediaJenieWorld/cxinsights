@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // Define the user schema
-const userSchema = new mongoose.Schema(
+const verify_user_Schema = new mongoose.Schema(
   {
     firstName: {
       type: String,
@@ -37,11 +37,6 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    status: {
-      type: String,
-      enum: ["Active", "Inactive", "Suspended", "Cancelled"],
-      default: "Active",
-    },
     industrySegment: {
       type: String,
       required: true,
@@ -60,54 +55,9 @@ const userSchema = new mongoose.Schema(
       enum: ["Owner", "Customer"],
       default: "Customer",
     },
-
-    insights: {
-      type: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Insight",
-        },
-      ],
-      default: [],
-    },
-
-    todo: {
-      type: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Insight",
-        },
-      ],
-      default: [],
-    },
-    implement: {
-      type: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Insight",
-        },
-      ],
-      default: [],
-    },
-
-    liked: {
-      type: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Insight",
-        },
-      ],
-      default: [],
-    },
-
-    permissions: {
-      type: [String],
-      default: [],
-    },
-    subscriptionPlan: {
+    code: {
       type: String,
-      enum: ["Platinum", "Gold", "Silver", "Bronze"],
-      default: "Bronze",
+      required: true,
     },
   },
   {
@@ -116,6 +66,6 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-const User = mongoose.model("User", userSchema);
+const Verify_User = mongoose.model("Verify_User", verify_user_Schema);
 
-module.exports = User;
+module.exports = Verify_User;

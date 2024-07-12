@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User_Customer");
+const Verify_User = require("../models/Verify_User_Customer");
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-
 require("dotenv").config();
 
 const encodeKey = process.env.ENCODE_KEY;
@@ -50,7 +50,7 @@ router.post("/createAccount", async (req, res) => {
   const payload = req.body;
   try {
     const existingUser = await User.findOne({
-      $or: [{ phone: payload.phoneNumber }, { email: payload.email }],
+      $or: [{ phoneNumber: payload.phoneNumber }, { email: payload.email }],
     });
 
     if (existingUser) {
@@ -134,19 +134,43 @@ router.post("/forgotpassword", async (req, res) => {
 
 router.post("/sendCodeToEmail", async (req, res) => {
   try {
-    const { email } = req.body;
+    const { email, phoneNumber } = req.body;
+    const payload = req.body;
     const existingUser = await User.findOne({
-email    });
+      $or: [{ phoneNumber }, { email }],
+    });
 
     if (existingUser) {
       return res.status(409).json({
         success: false,
-        data: "Email is already registered. Please login",
+        data: "Email or Phone Number is already registered. Please login",
       });
     }
-    const token = jwt.sign({ email }, encodeKey, {
-      expiresIn: "10m",
-    });
+
+    // Hash the password before saving the user account
+    const hashedPassword = await bcrypt.hash(payload.password, saltRounds);
+
+    // Update the payload with the hashed password
+    function generateRandomCode() {
+      var characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      var code = "";
+
+      for (var i = 0; i < 6; i++) {
+        code += characters.charAt(
+          Math.floor(Math.random() * characters.length)
+        );
+      }
+
+      return code;
+    }
+
+    const token = generateRandomCode();
+    payload.password = hashedPassword;
+    payload.code = token;
+
+    const createAccount = new Verify_User(payload);
+    await createAccount.save();
 
     const message = `Your verification code is: \n\n ${token} \n\n Please use this code to verify your email address.`;
 
@@ -183,22 +207,43 @@ router.post("/confirmVerifyEmail", async (req, res) => {
     const { code, email } = req.body;
     if (!code || !email) {
       return res
-        .status(200)
-        .json({ data: "Code and Email is required", success: false });
-    }
-    const decoded = jwt.verify(code, encodeKey);
-
-    if (decoded.error) {
-      return res.status(200).json({ data: "Token is invalid", success: false });
+        .status(400)
+        .json({ data: "Code and Email are required", success: false });
     }
 
-    res.status(200).json({
-      data: email,
-      success: true,
+    const verifyCode = await Verify_User.findOne({ email });
+    if (!verifyCode || verifyCode.code !== code) {
+      return res.status(200).json({ data: "Incorrect Code ", success: false });
+    }
+
+    const payload = {
+      firstName: verifyCode.firstName,
+      lastName: verifyCode.lastName,
+      email: verifyCode.email,
+      password: verifyCode.password,
+      phoneNumber: verifyCode.phoneNumber,
+      industrySegment: verifyCode.industrySegment,
+      organization: verifyCode.organization,
+      country: verifyCode.country,
+      state: verifyCode.state,
+      city: verifyCode.city,
+      organization_SubCategory: verifyCode.organization_SubCategory,
+    };
+
+    const user = new User(payload);
+    await user.save();
+    await Verify_User.deleteOne({ _id: verifyCode._id });
+
+    delete user.password;
+
+    const token = jwt.sign({ user }, encodeKey, {
+      expiresIn: "5d",
     });
+
+    res.json({ success: true, data: user, token });
   } catch (error) {
-    console.error(error?.message);
-    res.status(500).json({
+    console.error(error.message);
+    return res.status(500).json({
       data: error.message || "Failed to verify token",
       success: false,
     });

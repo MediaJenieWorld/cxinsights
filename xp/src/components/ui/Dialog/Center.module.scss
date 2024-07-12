@@ -4,14 +4,16 @@
     --pop-up-menu-width: max-content;
     --modal-gap: 1rem;
     position: relative;
-    width: max-content;
+    width: 100%;
     transform-origin: center center;
 
     .box {
-        padding: 6px 14px;
+        padding: 3px 8px;
         background-color: var(--star-color);
         color: var(--main-Bg);
+        font-size: .8rem;
         border-radius: 3px;
+        float: right;
     }
 
     .closeBtn {

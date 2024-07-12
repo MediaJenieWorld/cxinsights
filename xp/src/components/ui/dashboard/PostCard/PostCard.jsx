@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import { formatDate } from "@/utils/timeFormatter";
 import "./PostCard.scss";
 import { lazy, Suspense } from "react";
@@ -32,9 +34,7 @@ function showImageByCategory(category) {
 }
 
 const PostCard = ({
-  
   data,
-
   isIconsVisible,
   iconOnLeft = false,
   footer,
@@ -55,8 +55,6 @@ const PostCard = ({
     imgUrl,
   } = data || dummyInsightData();
   const time = formatDate(createdAt);
-
-  console.log(data.imgUrl);
   return (
     <div style={style} className="PostCard">
       <div className={iconOnLeft ? "head left" : "head"}>
@@ -75,7 +73,6 @@ const PostCard = ({
       </div>
       <div className="body">
         <h1 className="post_title">{insightTitle}</h1>
-        <p className="post_description">{insightDescription}</p>
         <div className="action">
           <div className="action_head">
             <p className="star">Action</p>
@@ -90,7 +87,7 @@ const PostCard = ({
         </div>
         {data?.imgUrl && (
           <Suspense fallback={<div>Loading...</div>}>
-            <Custom_Centered_DynamicDialog label ="view image" >
+            <Custom_Centered_DynamicDialog label="view image">
               <img
                 src={data?.imgUrl || "image_not_found."}
                 height={350}

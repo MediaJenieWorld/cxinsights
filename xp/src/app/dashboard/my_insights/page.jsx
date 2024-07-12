@@ -43,6 +43,16 @@ const MyInsightsPage = () => {
     return <h1>Loading</h1>;
   }
 
+  const filter_Options = [
+    { label: "select filter", value: "" },
+    { label: "Asian", value: "Asian" },
+    { label: "American", value: "American" },
+    { label: "European", value: "European" },
+    { label: "Hispanic", value: "Hispanic" },
+    { label: "Age Group 25-35", value: "25-35" },
+    { label: "Age Group 35-55", value: "35-55" },
+    { label: "Age Group 55-65", value: "55-65" },
+  ]
   return (
     <div className="MyInsights">
       <div className="header">
@@ -67,6 +77,22 @@ const MyInsightsPage = () => {
             width={60}
             alt="cafe"
           />
+        </div>
+      </div>
+      <div className="Info_and_Filter">
+        <h3>
+          Total  <i>
+            <span>{insightsData.totalInsights} Insights</span>
+          </i>
+        </h3>
+        <div className="filter_div">
+          <select name="filter" id="filter">
+            {
+              filter_Options.map((opt) => {
+                return <option key={opt.value} value={opt.value}>{opt.label}</option>
+              })
+            }
+          </select>
         </div>
       </div>
       <div className="latestInsights">

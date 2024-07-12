@@ -24,6 +24,47 @@
         }
     }
 
+    .Info_and_Filter {
+        margin: 0 auto;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: rgb(193 193 193);
+        max-width: 600px;
+        border-radius: 10px;
+        // border-radius: calc(10px * 2.5);
+
+        span {
+            color: var(--star-color);
+        }
+
+
+        select {
+            width: 100%;
+            background-color: transparent;
+            padding: 6px 0px;
+            border: none;
+            outline: none;
+            color: var(--main-Bg);
+            font-size: 14px;
+            border-bottom: 1px solid #FFF;
+            transition: border-color .3s ease-in-out;
+            background-color: rgb(245, 245, 220);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: Oxygen;
+
+            option {
+                font-family: Oxygen;
+            }
+
+            &:focus-within {
+                border-color: var(--star-color);
+            }
+        }
+    }
+
     .latestInsights {
         margin: 34px 0px;
 
