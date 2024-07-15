@@ -9,8 +9,8 @@ import { sendCodeToEmailHandler } from "@/utils/api";
 import PasswordInput from "./login_components/PasswordInput";
 import FormInput from "./login_components/FormInput";
 import AddressForm from "./login_components/AddressForm";
-// import Orgnazations from "./login_components/orgnazations";
-import BusinessForm from "./login_components/BusinessForm";
+// import BusinessForm from "./login_components/BusinessForm";
+import Orgnazations from "./login_components/orgnazationsCheckBox";
 
 const AccountForm = () => {
   const { signInHandler } = useContext(UserContext);
@@ -190,13 +190,19 @@ const AccountForm = () => {
         </div>
         {isCreatingAccount &&
           <>
-            <BusinessForm isCreatingAccount={isCreatingAccount}
-              register={register} errors={errors}
-              setBusinessType={setBusinessType} businessType={businessType} />
             <AddressForm isCreatingAccount={isCreatingAccount} setValue={setValue} errors={errors} register={register} />
-          </>}
+            <Orgnazations errors={errors}
+              isCreatingAccount={isCreatingAccount}
+              setBusinessType={setBusinessType}
+              register={register}
+              businessType={businessType} />
 
-        {/* {isCreatingAccount && <Orgnazations isCreatingAccount={isCreatingAccount} setBusinessType={setBusinessType} businessType={businessType} />} */}
+          </>}
+        {/* 
+        {isCreatingAccount && <BusinessForm
+              isCreatingAccount={isCreatingAccount}
+              register={register} errors={errors}
+              setBusinessType={setBusinessType} businessType={businessType} /> } */}
 
         {!isCreatingAccount && (
           <div className="forgot">

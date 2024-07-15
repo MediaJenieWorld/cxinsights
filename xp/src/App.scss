@@ -111,15 +111,17 @@
                 }
             }
 
-            label{
+            label {
                 display: block;
 
             }
-            option{
-                color:black;
+
+            option {
+                color: black;
             }
 
-            input, select {
+            input,
+            select {
                 width: 100%;
                 background-color: transparent;
                 padding: 6px 0px;
@@ -149,16 +151,38 @@
 
         .radio-btn {
             display: flex;
+            overflow-x: auto;
+            max-width: 100%;
             gap: 2rem;
             justify-content: space-evenly;
             animation: scaleUp 1.5s forwards;
+            // background-color: #fff;
+            padding: 1rem 0;
 
             .box {
+                flex-shrink: 0;
                 transition: all .1s ease-in-out;
                 border-radius: 50%;
+                padding: 5px;
+                height: 80px;
+                width: 80px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
 
-                svg {
+                img {
+                    filter: invert(1);
                     padding: 5px;
+                    height: 60px;
+                    width: 60px;
+                    object-fit: contain;
+                }
+
+                i {
+                    position: absolute;
+                    top: 0px;
+                    right: 0px;
                 }
 
                 &:hover {
@@ -166,17 +190,17 @@
                 }
             }
 
-            .box {
-                position: relative;
-
-                #check1,
-                #check2 {
-                    position: absolute;
-                    top: 0px;
-                    right: 0px;
-                }
+            .box::before {
+                content: attr(data-tooltip);
+                position: absolute;
+                bottom: -10px;
+                height: 20px;
+                width: 100%;
+                left: 50%;
+                transform: translateX(-50%);
+                color: white;
+                font-size: .8rem;
             }
-
         }
 
         .signUp {
