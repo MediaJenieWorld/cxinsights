@@ -6,9 +6,10 @@ const mongoose = require("mongoose");
 const userRoutes = require("./routes/user.action");
 const insightRoutes = require("./routes/insight.action");
 const authRoute = require("./routes/auth.action");
+const TestRoute = require("./routes/test.action");
+
 const extractToken = require("./utils/middleware");
-const Insight = require("./models/Insights_model");
-const User = require("./models/User_Customer");
+
 require("dotenv").config();
 
 const app = express();
@@ -41,17 +42,7 @@ db.once("open", () => {
 app.use("/users", extractToken, userRoutes);
 app.use("/insights", extractToken, insightRoutes);
 app.use("/auth", authRoute);
-
-app.get("/test", async (req, res) => {
-  try {
-    // let user = await Insight.find();
-
-    res.json({ message: "Test Api", data: "Testing Api" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: error.message || "Server error" });
-  }
-});
+app.use("/test", TestRoute);
 
 // Default route
 app.get("/", (req, res) => {

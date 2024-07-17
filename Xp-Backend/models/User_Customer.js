@@ -104,11 +104,15 @@ const userSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
-    subscriptionPlan: {
-      type: String,
-      enum: ["Platinum", "Gold", "Silver", "Bronze"],
-      default: "Bronze",
-    },
+    subscription_Manager:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref:"SubscriptionManager"
+  },
+
+  active_subscription:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref:"Subscription"
+  },
   },
   {
     timestamps: true,

@@ -5,6 +5,11 @@ const Verify_User = require("../models/Verify_User_Customer");
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+
+const newUser_with_subscription = require("../utils/newUser_with_Subscription");
+const Subscription_Manager = require("../models/Subscription_manager");
+const Subscription = require("../models/Subscription");
+
 const saltRounds = 10;
 require("dotenv").config();
 
@@ -230,8 +235,14 @@ router.post("/confirmVerifyEmail", async (req, res) => {
       organization_SubCategory: verifyCode.organization_SubCategory,
     };
 
-    const user = new User(payload);
-    await user.save();
+    const user = await newUser_with_subscription(
+      payload,
+      undefined,
+      User,
+      Subscription_Manager,
+      Subscription
+    );
+
     await Verify_User.deleteOne({ _id: verifyCode._id });
 
     delete user.password;
