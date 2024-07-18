@@ -19,7 +19,7 @@
   --star-color: #ffd74a;
   --primary-color: #fff;
   --gradient: linear-gradient(to top, var(--star-color), var(--main-Bg) 65%);
-
+  --black-bg-hover: #ffffff24;
   --header-h: 60px;
   --main-p-y: 1rem;
   --main-p-x: 1.5rem;

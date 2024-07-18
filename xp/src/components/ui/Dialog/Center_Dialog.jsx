@@ -7,27 +7,31 @@ const Custom_Centered_DynamicDialog = ({
   modelWidth,
   label = "button",
   children,
+  LabelChildren,
+  boxStyles = {},
+  dialogStyles = {}
 }) => {
   modelHeight = modelHeight || "max-content";
   modelWidth = modelWidth || "max-content";
   const [checked, setChecked] = useState(false);
 
-  const toggleMenu = () => {
+  const toggleMenu = (e) => {
+    e.stopPropagation()
     setChecked((pre) => !pre);
   };
 
   return (
     <Fragment>
       <div
-        className={`${styles.Insight_dialog} ${
-          checked ? styles.active : styles.close
-        }`}
+        style={{ ...dialogStyles }}
+        className={`${styles.Insight_dialog} ${checked ? styles.active : styles.close
+          }`}
       >
         <span onClick={toggleMenu} className={styles.closeBtn}>
           X
         </span>
         <label onClick={toggleMenu} className={styles.box}>
-          {label}
+          {LabelChildren ? <LabelChildren /> : label}
         </label>
         <label
           onClick={toggleMenu}
@@ -38,6 +42,7 @@ const Custom_Centered_DynamicDialog = ({
           style={{
             "--pop-up-menu-height": modelHeight,
             "--pop-up-menu-width": modelWidth,
+            ...boxStyles
           }}
         >
           {children}

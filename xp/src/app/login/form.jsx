@@ -11,6 +11,7 @@ import FormInput from "./login_components/FormInput";
 import AddressForm from "./login_components/AddressForm";
 // import BusinessForm from "./login_components/BusinessForm";
 import Orgnazations from "./login_components/orgnazationsCheckBox";
+import Subscription from "./login_components/Subscription";
 
 const AccountForm = () => {
   const { signInHandler } = useContext(UserContext);
@@ -76,8 +77,11 @@ const AccountForm = () => {
   };
 
   async function sendCodeToEmail(data) {
+    if(!businessType) return toast.error("Choose Business Type")
+    if(!getValues("subscription")) return toast.error("Choose Subscription Pack")
     const { email } = data
     data.industrySegment = data.businessName
+    data.organization = businessType
     delete data.businessName
     toast.info(`Sending code to your ${email} email address.`);
     if (email == "" || loading) return toast.error("Email is required");
@@ -191,12 +195,15 @@ const AccountForm = () => {
         {isCreatingAccount &&
           <>
             <AddressForm isCreatingAccount={isCreatingAccount} setValue={setValue} errors={errors} register={register} />
+            <div data-state={isCreatingAccount} className="flex-column">
+              <FormInput register={register} errors={errors} register_key={"pinCode"} label={"Zip/Pin Code"} type="number" />
+            </div>
             <Orgnazations errors={errors}
               isCreatingAccount={isCreatingAccount}
               setBusinessType={setBusinessType}
               register={register}
               businessType={businessType} />
-
+<Subscription register={register}  setValue={setValue} />
           </>}
         {/* 
         {isCreatingAccount && <BusinessForm

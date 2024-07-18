@@ -16,6 +16,11 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    phoneNumber: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     password: {
       type: String,
       required: true,
@@ -32,10 +37,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    phoneNumber: {
+    pinCode: {
       type: String,
       required: true,
-      unique: true,
     },
     status: {
       type: String,
@@ -54,13 +58,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    category: {
-      type: String,
-      required: true,
-      enum: ["Owner", "Customer"],
-      default: "Customer",
-    },
-
     insights: {
       type: [
         {
@@ -104,15 +101,15 @@ const userSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
-    subscription_Manager:{
+    subscription_Manager: {
       type: mongoose.Schema.Types.ObjectId,
-      ref:"SubscriptionManager"
-  },
+      ref: "SubscriptionManager",
+    },
 
-  active_subscription:{
+    active_subscription: {
       type: mongoose.Schema.Types.ObjectId,
-      ref:"Subscription"
-  },
+      ref: "Subscription",
+    },
   },
   {
     timestamps: true,

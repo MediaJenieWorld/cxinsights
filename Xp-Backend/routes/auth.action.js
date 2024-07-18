@@ -227,12 +227,14 @@ router.post("/confirmVerifyEmail", async (req, res) => {
       email: verifyCode.email,
       password: verifyCode.password,
       phoneNumber: verifyCode.phoneNumber,
-      industrySegment: verifyCode.industrySegment,
-      organization: verifyCode.organization,
       country: verifyCode.country,
       state: verifyCode.state,
       city: verifyCode.city,
+      pinCode: verifyCode.pinCode,
+      industrySegment: verifyCode.industrySegment,
+      organization: verifyCode.organization,
       organization_SubCategory: verifyCode.organization_SubCategory,
+      subscription: verifyCode.subscription,
     };
 
     const user = await newUser_with_subscription(
@@ -247,7 +249,7 @@ router.post("/confirmVerifyEmail", async (req, res) => {
 
     delete user.password;
 
-    const token = jwt.sign({ user }, encodeKey, {
+    const token = jwt.sign({ user: user.email }, encodeKey, {
       expiresIn: "5d",
     });
 

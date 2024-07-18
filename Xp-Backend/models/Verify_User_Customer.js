@@ -32,6 +32,11 @@ const verify_user_Schema = new mongoose.Schema(
       type: String,
       required: true,
     },
+
+    pinCode: {
+      type: String,
+      required: true,
+    },
     phoneNumber: {
       type: String,
       required: true,
@@ -48,12 +53,6 @@ const verify_user_Schema = new mongoose.Schema(
     organization_SubCategory: {
       type: String,
       required: true,
-    },
-    category: {
-      type: String,
-      required: true,
-      enum: ["Owner", "Customer"],
-      default: "Customer",
     },
     code: {
       type: String,

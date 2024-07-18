@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 
 // eslint-disable-next-line react/prop-types
 const Orgnazations = ({ register, errors, businessType, isCreatingAccount, setBusinessType }) => {
@@ -25,7 +26,7 @@ const Orgnazations = ({ register, errors, businessType, isCreatingAccount, setBu
                 {icons.map((category, ind) => {
                     const isActive = businessType === category.name ? true : false;
                     return <div data-tooltip={category.name} onClick={() => setBusinessType(category.name)} key={ind} className="box">
-                        <img height={40} width={40} src={"/assets/account/" + category.icon} alt={category.name} />
+                        <img height={60} width={60} src={"/assets/account/" + category.icon} alt={category.name} />
                         {isActive && <i
                             style={{ color: "var(--star-color)" }}
                             className="pi pi-check-circle"
@@ -40,18 +41,31 @@ const Orgnazations = ({ register, errors, businessType, isCreatingAccount, setBu
                     Organisation is Required
                 </span>
             )}
-            <div data-state={isCreatingAccount} className="flex-column">
+            <div id="subCategory" data-state={isCreatingAccount} className="flex-column">
                 <label>Organisation Sub Category:</label>
-                <select {...register('organization_SubCategory', {
+                <div className="items">
+                    {!businessType &&
+                        <div className="item" >
+                            <input type="radio" defaultChecked={true} value={""} />
+                            <label >Select Organization</label>
+                        </div>}
+                    {businessType && subCategories[businessType]?.map((category, index) => (
+                        <div className="item" key={index}>
+                            <input id={category} type="radio" value={category} {...register('organization_SubCategory')} />
+                            <label htmlFor={category}>{category}</label>
+                        </div>
+                    ))}
+                </div>
+                {/* <select {...register('organization_SubCategory', {
                     required: "Organization Category is required",
                 })}>
-                    <option value="">Select organization sub category</option>
+                    {!businessType && <option value="">Select organization sub category</option>}
                     {businessType && subCategories[businessType]?.map((org) => (
                         <option key={org} value={org}>
                             {org}
                         </option>
                     ))}
-                </select>
+                </select> */}
                 {errors?.organization_SubCategory && (
                     <span
                         style={{ fontSize: ".7rem", fontWeight: "700", color: "red" }}

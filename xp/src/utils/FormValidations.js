@@ -39,12 +39,24 @@ const businessName = {
     message: "Length cannot exceed 30 characters",
   },
 };
+const pinCode={
+  required: "Pin Code is required",
+  maxLength: {
+    value: 6,
+    message: "Pin Code cannot exceed 6 characters",
+    },
+    pattern: {
+      value: /^[0-9]*$/,
+      message: "Pin Code can only contain numbers",
+      },
+}
 
 const Validations = {
   firstName,
   lastName,
   email,
   businessName,
+  pinCode
 };
 
 export default Validations;
