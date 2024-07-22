@@ -1,0 +1,113 @@
+.SubsPage {
+    padding: var(--main-p-x);
+    background-color: var(--main-Bg);
+    color: var(--primary-color);
+    display: flex;
+    flex-direction: column;
+    gap: var(--main-p-x);
+    align-items: center;
+    min-height: 100vh;
+
+    .Subscription {
+        margin-top: 1rem;
+        width: 100%;
+        min-width: 350px;
+        max-width: 600px;
+
+        #heading {
+            width: 100%;
+            text-align: center;
+            font-size: var(--font-xlg);
+            border-bottom: 2px solid var(--star-color);
+            border-radius: 10px;
+            padding-bottom: 0.5rem;
+
+            span {
+                color: var(--star-color);
+                font-style: italic
+            }
+        }
+
+        .Subscription__container {
+            margin-top: 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+
+            .item {
+                display: flex;
+                justify-content: space-between;
+                gap: 0em;
+                align-items: center;
+                padding: 0.5em 1em;
+                border-radius: 8px;
+                transition: background-color 0.3s ease-in-out;
+
+                .left {
+                    i {
+                        font-size: 1.5rem;
+                    }
+
+                    button {
+                        padding: .3rem 1.5rem;
+                        height: max-content;
+                        width: max-content;
+                        cursor: pointer;
+                        transition: all .3s ease-in-out;
+                        background-color: var(--main-Bg);
+                        color: var(--primary-color);
+                        border: 2px solid var(--star-color);
+
+                        &:hover {
+                            background-color: var(--star-color);
+                            color: var(--main-Bg);
+                            border: 2px solid transparent;
+                        }
+                    }
+                }
+
+                .right {
+                    text-align: left !important;
+
+                    h3,
+                    p,
+                    i {
+                        text-align: left !important;
+                    }
+
+                    p,
+                    i {
+                        margin-top: .5rem;
+                    }
+                }
+
+                &:hover {
+                    background: #ffffff0f;
+                }
+
+                &.active {
+                    background: #ffffff0f;
+
+                    .left i {
+                        color: var(--star-color);
+                    }
+
+                    .right {
+
+                        >h3,
+                        p,
+                        i {
+                            color: var(--star-color);
+                        }
+                    }
+                }
+            }
+
+            .dialog-content {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    }
+}

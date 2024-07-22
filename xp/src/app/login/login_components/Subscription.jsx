@@ -1,13 +1,6 @@
-import { useEffect, useState } from "react";
 import Custom_Centered_DynamicDialog from "@/components/ui/Dialog/Center_Dialog";
-import { toast } from "react-toastify";
 // eslint-disable-next-line react/prop-types
-const Subscription = ({ setValue }) => {
-  const [activeSubs, setActiveSubs] = useState("FREE TRIAL");
-
-  useEffect(() => {
-    setValue("subscription", "FREE TRIAL");
-  }, [])
+const SubscriptionPacksDetails = () => {
 
   const subscriptionPacks = [
     {
@@ -36,13 +29,6 @@ const Subscription = ({ setValue }) => {
     },
   ];
 
-
-  function setSubs(sub) {
-    return toast.info("Currently only FREE TRIAL pack is available")
-    // setValue("subscription", sub.name);
-    // setActiveSubs(sub.name);
-  }
-
   return (
     <div className="Subscription">
       <label htmlFor="#">CHOOSE YOUR SUBSCRIPTION</label>{" "}
@@ -50,8 +36,7 @@ const Subscription = ({ setValue }) => {
         {subscriptionPacks.map((subs, i) => {
           return (
             <div
-              onClick={() => setSubs(subs)}
-              className={`item ${activeSubs === subs.name ? "active" : ""}`}
+              className={"item"} style={{borderBottom:"1px solid yellow"}}
               key={i}
             >
               <div className="right">
@@ -84,9 +69,9 @@ const Subscription = ({ setValue }) => {
                 </Custom_Centered_DynamicDialog>
                 {/* <i className="pi pi-info-circle"></i> */}
               </div>
-              <div className="left">
+              {/* <div className="left">
                 <i className="pi pi-check"></i>
-              </div>
+              </div> */}
             </div>
           );
         })}
@@ -95,4 +80,4 @@ const Subscription = ({ setValue }) => {
   );
 };
 
-export default Subscription;
+export default SubscriptionPacksDetails;

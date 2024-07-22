@@ -35,16 +35,19 @@ const DashboardPage = () => {
 
   useEffect(() => {
     const dashboardApis = async () => {
+      if (insightsArray) return
       const response = await getDashboard();
       const userResponse = await getDashboardCounts();
       const res = response.data;
       const userRes = userResponse.data;
       let errorMessage = "";
       let getError = {};
-      if (response.status === 200) {
+
+      if (response.data.success) {
         setInsightsArray(res);
       } else {
-        errorMessage += "Insights, ";
+        // errorMessage += "Insights, ";
+        // errorMessage = response.data.data
         getError.insight = true;
       }
       if (userResponse.status === 200) {
@@ -53,8 +56,8 @@ const DashboardPage = () => {
         getError.todo = true;
         errorMessage += "Unable to get liked and todo counts";
       }
-      if (response.status !== 200 || userResponse.status !== 200) {
-        setError(getError);
+      if (!response.data.success || userResponse.status !== 200) {
+        setError({ ...getError, errorMessage: response?.data.data });
         toast.error(response?.data.data + ": " + errorMessage);
       }
     };
@@ -70,7 +73,7 @@ const DashboardPage = () => {
   }
 
   if (error.insight === true || error.todo === true) {
-    return <ErrorPage message="Network Error!!!" />;
+    return <ErrorPage message={error.errorMessage} />;
   }
   if (insightsArray === null || myCounts === null) {
     return <h1>Loading...</h1>;

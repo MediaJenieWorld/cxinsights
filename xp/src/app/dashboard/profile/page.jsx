@@ -1,24 +1,28 @@
-"use client";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./styles.scss";
-import { UserContext } from "@/store/UserContext";
+import { viewProfile_Api } from "@/utils/api";
+import { formatDate } from "@/utils/timeFormatter";
 
-const DashboardPage = () => {
-  const { auth } = useContext(UserContext);
+const UserProfilePage = () => {
   const [user, setUser] = useState(null);
   const [isLoading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (auth) {
-      setUser(auth);
-      setLoading(false);
-    } else {
-      setLoading(false);
-      setTimeout(() => {
-        // redirect('/');
-      }, 2000);
+  async function get_UserDataHandler() {
+    setLoading(true)
+    try {
+      const res = await viewProfile_Api()
+      if (res.data.success) {
+        setUser(res.data.data)
+      }
+    } catch (error) {
+      console.log(error.error);
     }
-  }, [auth]);
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    get_UserDataHandler()
+  }, []);
 
   if (isLoading) {
     return (
@@ -36,18 +40,24 @@ const DashboardPage = () => {
     );
   }
 
+  console.log("user", user);
   const {
     firstName = "",
     lastName = "",
     email = "",
     phoneNumber = "",
-    password = "",
     status = "",
-    category = "",
-    role = "",
-    businessType = "",
-    businessName = "",
+    country = "",
+    state = "",
+    city = "",
+    pinCode = "",
+    organization = "",
+    organization_SubCategory = "",
+    industrySegment = "",
+    active_subscription = { startTime: "", endTime: "", plan: "", price: "" }
   } = user || {};
+  const startTime = formatDate(active_subscription.startTime)
+  const endTime = formatDate(active_subscription.endTime)
 
   return (
     <div className="dashboard">
@@ -73,32 +83,58 @@ const DashboardPage = () => {
           <span>{phoneNumber}</span>
         </div>
         <div className="row">
-          <label>Password:</label>
-          <span>{password}</span>
-        </div>
-        <div className="row">
           <label>Status:</label>
           <span>{status}</span>
         </div>
         <div className="row">
-          <label>Category:</label>
-          <span>{category}</span>
+          <label>Country:</label>
+          <span>{country}</span>
         </div>
         <div className="row">
-          <label>Role:</label>
-          <span>{role}</span>
+          <label>State:</label>
+          <span>{state}</span>
         </div>
         <div className="row">
-          <label>Business Type:</label>
-          <span>{businessType}</span>
+          <label>City:</label>
+          <span>{city}</span>
         </div>
         <div className="row">
-          <label>Business Name:</label>
-          <span>{businessName}</span>
+          <label>Pin Code:</label>
+          <span>{pinCode}</span>
+        </div>
+        <div className="row">
+          <label>Organization:</label>
+          <span>{organization}</span>
+        </div>
+        <div className="row">
+          <label>Organization SubCategory:</label>
+          <span>{organization_SubCategory}</span>
+        </div>
+        <div className="row">
+          <label>industrySegment:</label>
+          <span>{industrySegment}</span>
+        </div>
+        <hr />
+        <h2 style={{ textAlign: "center", padding: "1rem" }}>Active Subscription Plan</h2>
+        <div className="row">
+          <label>Subscription Plan:</label>
+          <span>{active_subscription.plan}</span>
+        </div>
+        <div className="row">
+          <label>Subscription Price:</label>
+          <span>Rs. {active_subscription.price}</span>
+        </div>
+        <div className="row">
+          <label>Subscription End On:</label>
+          <span>{endTime}</span>
+        </div>
+        <div className="row">
+          <label>Subscription Start At:</label>
+          <span>{startTime}</span>
         </div>
       </div>
     </div>
   );
 };
 
-export default DashboardPage;
+export default UserProfilePage;

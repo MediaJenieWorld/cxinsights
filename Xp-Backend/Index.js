@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const userRoutes = require("./routes/user.action");
 const insightRoutes = require("./routes/insight.action");
 const authRoute = require("./routes/auth.action");
-const TestRoute = require("./routes/test.action");
+const subscriptionRoute = require("./routes/subscription.action");
 
 const extractToken = require("./utils/middleware");
 
@@ -42,7 +42,7 @@ db.once("open", () => {
 app.use("/users", extractToken, userRoutes);
 app.use("/insights", extractToken, insightRoutes);
 app.use("/auth", authRoute);
-app.use("/test", TestRoute);
+app.use("/subscription", extractToken, subscriptionRoute);
 
 // Default route
 app.get("/", (req, res) => {

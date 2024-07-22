@@ -42,6 +42,9 @@ body {
   }
 }
 
+.gradient {
+  background: var(--gradient);
+}
 .loading {
   background-image: var(--gradient);
 }

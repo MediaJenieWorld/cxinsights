@@ -5,7 +5,7 @@ import { cookiesKey } from "@/store/User_Context";
 
 const instance = axios.create({
   baseURL: server_base_Url,
-  timeout: 25000,
+  timeout: 60000,
 });
 
 instance.interceptors.request.use(
@@ -52,6 +52,10 @@ export const login = async (data) => {
 
 export const signUp = async (data) => {
   return handleRequest(() => instance.post("auth/createAccount", data));
+};
+
+export const viewProfile_Api = async () => {
+  return handleRequest(() => instance.get("users/profile"));
 };
 
 export const getDashboardCounts = async () => {
@@ -125,5 +129,19 @@ export const confirmVerifyEmailHandler = async (body) => {
 export const forgotPasswordEmailVerify = async (body) => {
   return handleRequest(() =>
     instance.post(`auth/forgotpassword/${body.token}`, body)
+  );
+};
+
+export const createPaymentOrder = async ({ pack }) => {
+  return handleRequest(() => instance.post(`subscription/payment`, { pack }));
+};
+
+export const activateFreeTrail_Api = async () => {
+  return handleRequest(() => instance.get(`subscription/free_trail`));
+};
+
+export const verifyPaymentApi = async ({ orderId }) => {
+  return handleRequest(() =>
+    instance.post(`subscription/verifyPayment`, { orderId })
   );
 };

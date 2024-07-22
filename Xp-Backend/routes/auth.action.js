@@ -5,10 +5,7 @@ const Verify_User = require("../models/Verify_User_Customer");
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-
-const newUser_with_subscription = require("../utils/newUser_with_Subscription");
 const Subscription_Manager = require("../models/Subscription_manager");
-const Subscription = require("../models/Subscription");
 
 const saltRounds = 10;
 require("dotenv").config();
@@ -39,9 +36,13 @@ router.post("/login", async (req, res) => {
     }
     delete user.password;
 
-    const token = jwt.sign({ user }, encodeKey, {
-      expiresIn: "5d",
-    });
+    const token = jwt.sign(
+      { user: { _id: user._id, email: user.email } },
+      encodeKey,
+      {
+        expiresIn: "5d",
+      }
+    );
 
     res.status(200).json({ success: true, data: user, token });
   } catch (error) {
@@ -76,9 +77,13 @@ router.post("/createAccount", async (req, res) => {
 
     delete user.password;
 
-    const token = jwt.sign({ user }, encodeKey, {
-      expiresIn: "5d",
-    });
+    const token = jwt.sign(
+      { user: { _id: user._id, email: user.email } },
+      encodeKey,
+      {
+        expiresIn: "5d",
+      }
+    );
 
     res.json({ success: true, data: user, token });
   } catch (error) {
@@ -234,16 +239,14 @@ router.post("/confirmVerifyEmail", async (req, res) => {
       industrySegment: verifyCode.industrySegment,
       organization: verifyCode.organization,
       organization_SubCategory: verifyCode.organization_SubCategory,
-      subscription: verifyCode.subscription,
     };
 
-    const user = await newUser_with_subscription(
-      payload,
-      undefined,
-      User,
-      Subscription_Manager,
-      Subscription
-    );
+    const user = new User(payload);
+    const manager = new Subscription_Manager({ author: user._id });
+
+    user.subscription_Manager = manager.id;
+    await user.save();
+    await manager.save();
 
     await Verify_User.deleteOne({ _id: verifyCode._id });
 

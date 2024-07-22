@@ -32,7 +32,6 @@ const verify_user_Schema = new mongoose.Schema(
       type: String,
       required: true,
     },
-
     pinCode: {
       type: String,
       required: true,

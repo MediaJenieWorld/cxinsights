@@ -52,6 +52,7 @@ const Orgnazations = ({ register, errors, businessType, isCreatingAccount, setBu
                     {businessType && subCategories[businessType]?.map((category, index) => (
                         <div className="item" key={index}>
                             <input id={category} type="radio" value={category} {...register('organization_SubCategory')} />
+                            <label htmlFor={category} className="r-label"></label>
                             <label htmlFor={category}>{category}</label>
                         </div>
                     ))}

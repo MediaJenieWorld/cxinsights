@@ -38,7 +38,8 @@ const CustomRightDynamicDialog = ({ modelHeight, modelWidth }) => {
     { link: "/dashboard/my_insights", label: "My Insights" },
     { link: "/dashboard/my_actions_list", label: "My List of Action" },
     { link: "/dashboard/implemented", label: "Implemented" },
-    // { link: "/dashboard/profile", label: "Profile" },
+    { link: "/dashboard/subscription", label: "Subscription" },
+    { link: "/dashboard/profile", label: "My Profile" },
     // { link: "/dashboard/create", label: "Create Insight" },
   ];
 
@@ -47,9 +48,8 @@ const CustomRightDynamicDialog = ({ modelHeight, modelWidth }) => {
       <div>
         <div
           style={{ "--transform-origin": `right top` }}
-          className={`${styles.dialogMenu} ${
-            checked ? styles.active : styles.close
-          }`}
+          className={`${styles.dialogMenu} ${checked ? styles.active : styles.close
+            }`}
         >
           <label onClick={toggleMenu} className={styles.box}>
             <p></p>
