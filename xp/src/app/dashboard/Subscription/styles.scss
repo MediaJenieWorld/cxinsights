@@ -7,6 +7,30 @@
     gap: var(--main-p-x);
     align-items: center;
     min-height: 100vh;
+    position: relative;
+
+    .loadingLayer {
+        position: fixed;
+        z-index: 2;
+        height: calc(100vh - var(--header-h));
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.282);
+        backdrop-filter: blur(4px);
+        color: var(--primary-color);
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        justify-content: center;
+        align-items: center;
+        top: var(--header-h);
+        left: 0;
+        text-align: center;
+
+        h3,
+        a {
+            color: var(--star-color);
+        }
+    }
 
     .Subscription {
         margin-top: 1rem;

@@ -41,6 +41,7 @@ function Subscription() {
 
     const verifyPayment = async (orderId) => {
         try {
+            setLoading(true)
             let res = await verifyPaymentApi({ orderId })
             if (res && res.data) {
                 console.log("Response ==>", res);
@@ -61,6 +62,7 @@ function Subscription() {
             console.log(error.message)
             toast.info("payment verification failed")
         }
+        setLoading(false)
     }
 
     const handleClick = async (pack) => {
@@ -80,9 +82,17 @@ function Subscription() {
         }
     }
 
-    const activateTrailPack = () => { }
     return (
         <div className="SubsPage">
+            {loading && <div className="loadingLayer">
+                <h3>
+                    Loading and Verifying Payment. Please wait and do not close or refresh this page.
+                </h3>
+                <p>
+                    If it takes too long, you can check your subscription status in the <a href="/dashboard/profile">Profile</a>
+                </p>
+            </div>}
+
             <div className="Subscription">
                 <div id='heading'>CHOOSE YOUR <span>SUBSCRIPTION</span></div>{" "}
                 <div className="Subscription__container">
@@ -139,44 +149,3 @@ function Subscription() {
 }
 
 export default Subscription
-// {      <div
-//     className="item"
-// >
-//     <div className="right">
-//         <h3>FREE TRIAL</h3>
-//         <p>Rs. 0/ 7 Days</p>
-//         <Custom_Centered_DynamicDialog
-//             label="info"
-//             dialogStyles={{ width: "max-content" }}
-//             boxStyles={{ backgroundColor: "rgb(91 90 90 / 80%)", borderRadius: "10px", padding: "1rem", width: "90%", justifyContent: "flex-start" }}
-//             LabelChildren={() => <i className="pi pi-info-circle"></i>}
-//         >
-//             <div className="dialog-content">
-//                 <div className="flex-column">
-//                     <h4>Subscription Pack Name:</h4>
-//                     <p style={{ color: "var(--star-color)" }}>FREE TRIAL</p>
-//                 </div>
-//                 <div className="flex-column">
-//                     <h4>What you can view:</h4>
-//                     <p style={{ color: "var(--star-color)" }}>Access to basic insights</p>
-//                 </div>
-//                 <div className="flex-column">
-//                     <h4>Insight Limit:</h4>
-//                     <p style={{ color: "var(--star-color)" }}>10 insights per day</p>
-//                 </div>
-//                 <div className="flex-column">
-//                     <h4>Vailidity:</h4>
-//                     <p style={{ color: "var(--star-color)" }}>7 days</p>
-//                 </div>
-//                 <div className="flex-column">
-//                     <h4>Price:</h4>
-//                     <p style={{ color: "var(--star-color)" }}>Rs. 0/ 7 Days</p>
-//                 </div>
-//             </div>
-//         </Custom_Centered_DynamicDialog>
-//         {/* <i className="pi pi-info-circle"></i> */}
-//     </div>
-//     <div className="left">
-//         <button onClick={() => activateTrailPack()} className='start'>Activate</button>
-//     </div>
-// </div>}
