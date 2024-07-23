@@ -48,12 +48,12 @@ const PostCard = ({
     insightDataURL,
     insightLevel,
     insightTitle,
-    insightDescription,
-    insightActionItem,
+    insightDescription = undefined,
+    insightActionItem = undefined,
     actionItemExample,
     createdAt,
-    imgUrl,
-  } = data || dummyInsightData();
+    imgUrl = undefined,
+  } = data;
   const time = formatDate(createdAt);
   return (
     <div style={style} className="PostCard">
@@ -73,16 +73,17 @@ const PostCard = ({
       </div>
       <div className="body">
         <h1 className="post_title">{insightTitle}</h1>
+        {insightDescription && <p>{insightDescription}</p>}
         <div className="action">
           <div className="action_head">
             <p className="star">Action</p>
-            <p className="action_title">{insightActionItem}</p>
+            {insightActionItem && <p className="action_title">{insightActionItem}</p>}
           </div>
 
           <p className="example">
             For example
             <br />
-            {actionItemExample}
+            {actionItemExample && actionItemExample}
           </p>
         </div>
         {data?.imgUrl && (
@@ -109,17 +110,17 @@ function dummyInsightData() {
   return {
     industrySegment: "Restaurant",
     insightCategory: "Behaviour",
-    insightSubCategory: "Promotion",
+    insightSubCategory: "",
     iconURL: "/pro",
     imgUrl: "/assets/gradient-bg.png",
-    insightDataURL: "xyz",
-    insightLevel: "All",
-    insightTitle: "Promotion Title2",
-    insightDescription: "Insight Description:2",
-    insightActionItem: "Insight Action Item:",
+    insightDataURL: "",
+    insightLevel: "",
+    insightTitle: "",
+    insightDescription: "",
+    insightActionItem: "",
     actionItemExample:
-      " Insight Description: Insight Description: Insight Action Item: Insight Action Item: Action Item Example:",
-    author: "6672d2340e284cefdb471f84",
+      "",
+    author: "",
     likes: [],
     dislikes: [],
     comments: [],

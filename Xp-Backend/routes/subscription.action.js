@@ -5,7 +5,7 @@ const crypto = require("crypto");
 const { Cashfree } = require("cashfree-pg");
 const { subscriptionPacks } = require("../utils/sub_packs");
 const User = require("../models/User_Customer");
-const add_Subscription = require("../utils/create_subscription");
+const { add_Subscription } = require("../utils/create_subscription");
 
 require("dotenv").config();
 
@@ -16,6 +16,13 @@ Cashfree.XEnvironment = Cashfree.Environment.SANDBOX;
 router.post("/payment", async (req, res) => {
   try {
     const pack = req.body.pack;
+
+    const isPackVaild = subscriptionPacks.some(
+      (order, i) => order.name === pack
+    );
+    if (!isPackVaild) {
+      res.sendStatus(404).json("INVAILD PACK");
+    }
     const findPack = subscriptionPacks.find((order, i) => order.name === pack);
 
     const userId = req.user._id;

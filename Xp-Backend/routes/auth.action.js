@@ -6,13 +6,19 @@ const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const Subscription_Manager = require("../models/Subscription_manager");
-
+const {
+  generateEmailVerification,
+  generateForgotPasswordEmail,
+} = require("../utils/email_template");
 const saltRounds = 10;
 require("dotenv").config();
+
+const { add_freeTrail_Subscription } = require("../utils/create_subscription");
 
 const encodeKey = process.env.ENCODE_KEY;
 const user_mail_address = process.env.MAIL_ADDRESS;
 const user_mail_password = process.env.Mail_PASS;
+const login_Token_Vaildity = process.env.LOGIN_TOKEN_VAILDITY;
 
 router.post("/login", async (req, res) => {
   const { id, password } = req.body;
@@ -40,7 +46,7 @@ router.post("/login", async (req, res) => {
       { user: { _id: user._id, email: user.email } },
       encodeKey,
       {
-        expiresIn: "5d",
+        expiresIn: login_Token_Vaildity,
       }
     );
 
@@ -81,7 +87,7 @@ router.post("/createAccount", async (req, res) => {
       { user: { _id: user._id, email: user.email } },
       encodeKey,
       {
-        expiresIn: "5d",
+        expiresIn: login_Token_Vaildity,
       }
     );
 
@@ -95,7 +101,7 @@ router.post("/createAccount", async (req, res) => {
 
 router.post("/forgotpassword", async (req, res) => {
   try {
-    const { email, isCreatingAccount } = req.body;
+    const { email } = req.body;
 
     const user = await User.findOne({ email }, { _id: 1, email: 1 });
 
@@ -127,7 +133,7 @@ router.post("/forgotpassword", async (req, res) => {
       from: user_mail_address,
       to: email,
       subject: "Forgot Password",
-      text: message,
+      html: generateForgotPasswordEmail(url),
     };
 
     // Send email
@@ -198,6 +204,7 @@ router.post("/sendCodeToEmail", async (req, res) => {
       to: email,
       subject: "Email Verification",
       text: message,
+      html: generateEmailVerification(token),
     };
 
     // Send email
@@ -248,13 +255,19 @@ router.post("/confirmVerifyEmail", async (req, res) => {
     await user.save();
     await manager.save();
 
+    await add_freeTrail_Subscription(user);
+
     await Verify_User.deleteOne({ _id: verifyCode._id });
 
     delete user.password;
 
-    const token = jwt.sign({ user: user.email }, encodeKey, {
-      expiresIn: "5d",
-    });
+    const token = jwt.sign(
+      { user: { _id: user._id, email: user.email } },
+      encodeKey,
+      {
+        expiresIn: login_Token_Vaildity,
+      }
+    );
 
     res.json({ success: true, data: user, token });
   } catch (error) {

@@ -3,6 +3,13 @@ import { Link } from "react-router-dom";
 import { UserContext } from "./store/User_Context";
 
 export default function ErrorPage({ message }) {
+  let buy = undefined
+  if (typeof message === "string") {
+    if (message?.includes("Subscription")) {
+      buy = true
+    }
+  }
+
   const { auth } = useContext(UserContext);
   return (
     <div
@@ -38,9 +45,9 @@ export default function ErrorPage({ message }) {
               textAlign: "center",
             }}
             className="link button"
-            to="/dashboard"
+            to={buy ? "/dashboard/subscription" : "/dashboard"}
           >
-            Return Dashboard
+            Go To Subsription Page
           </Link>
         )}
       </div>

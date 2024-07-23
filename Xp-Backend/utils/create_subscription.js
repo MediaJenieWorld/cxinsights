@@ -24,7 +24,7 @@ async function add_Subscription(paymentArr, user) {
       plan: findPack.name,
       price: paymentObj.order_amount,
       transactionId: paymentObj.cf_payment_id,
-      discount: `${paymentObj.order_amount - paymentObj.payment_amount}`,
+      discount: `${paymentObj?.order_amount - paymentObj?.payment_amount}`,
       endTime: new Date(Date.now() + findPack.days * 24 * 60 * 60 * 1000),
     });
 
@@ -51,4 +51,41 @@ async function add_Subscription(paymentArr, user) {
   }
 }
 
-module.exports = add_Subscription;
+async function add_freeTrail_Subscription(user) {
+  try {
+    const findPack = subscriptionPacks.find((order, i) => order.price === 0);
+
+    const newSubscription = new Subscription({
+      author: user._id,
+      subscriptionManager: user.subscription_Manager,
+      plan: findPack.name,
+      price: findPack.price,
+      transactionId: "Free Trail",
+      discount: "0",
+      endTime: new Date(Date.now() + findPack.days * 24 * 60 * 60 * 1000),
+    });
+
+    await newSubscription.save();
+    await Subscription_Manager.updateOne(
+      { _id: user.subscription_Manager },
+      {
+        $push: {
+          subscriptions_History: newSubscription,
+        },
+      }
+    );
+
+    await User.updateOne(
+      { _id: user._id },
+      {
+        $set: {
+          active_subscription: newSubscription,
+        },
+      }
+    );
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+module.exports = { add_Subscription, add_freeTrail_Subscription };

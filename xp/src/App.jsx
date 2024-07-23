@@ -33,8 +33,12 @@ const App = () => {
         <Routes>
           <Route path="/" element={<LoginPage />} />
           {/* <Route path="/profile" element={<CustomerProfilePage />} /> */}
-          <Route path="/forgot_password" element={<ForgotPassword />} />
-          <Route path="/forgot_password/:token" element={<NewPassword />} />
+          {!auth &&
+            <>
+              <Route path="/forgot_password" element={<ForgotPassword />} />
+              <Route path="/forgot_password/:token" element={<NewPassword />} />
+            </>
+          }
           {auth && (
             <>
               <Route path="/dashboard" element={<DashboardPage />} />

@@ -7,6 +7,7 @@ const userRoutes = require("./routes/user.action");
 const insightRoutes = require("./routes/insight.action");
 const authRoute = require("./routes/auth.action");
 const subscriptionRoute = require("./routes/subscription.action");
+const testRoute = require("./routes/test.action");
 
 const extractToken = require("./utils/middleware");
 
@@ -39,10 +40,11 @@ db.once("open", () => {
 });
 
 // API Routes
+app.use("/auth", authRoute);
 app.use("/users", extractToken, userRoutes);
 app.use("/insights", extractToken, insightRoutes);
-app.use("/auth", authRoute);
 app.use("/subscription", extractToken, subscriptionRoute);
+app.use("/test", testRoute);
 
 // Default route
 app.get("/", (req, res) => {

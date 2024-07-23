@@ -11,7 +11,7 @@ const UserProfilePage = () => {
     setLoading(true)
     try {
       const res = await viewProfile_Api()
-      if (res.data.success) {
+      if (res.data.success || res.status == 200) {
         setUser(res.data.data)
       }
     } catch (error) {
@@ -40,7 +40,6 @@ const UserProfilePage = () => {
     );
   }
 
-  console.log("user", user);
   const {
     firstName = "",
     lastName = "",
@@ -116,22 +115,29 @@ const UserProfilePage = () => {
         </div>
         <hr />
         <h2 style={{ textAlign: "center", padding: "1rem" }}>Active Subscription Plan</h2>
-        <div className="row">
-          <label>Subscription Plan:</label>
-          <span>{active_subscription.plan}</span>
-        </div>
-        <div className="row">
-          <label>Subscription Price:</label>
-          <span>Rs. {active_subscription.price}</span>
-        </div>
-        <div className="row">
-          <label>Subscription End On:</label>
-          <span>{endTime}</span>
-        </div>
-        <div className="row">
-          <label>Subscription Start At:</label>
-          <span>{startTime}</span>
-        </div>
+        {
+          user?.active_subscription ?
+            <>
+              <div className="row">
+                <label>Subscription Plan:</label>
+                <span>{active_subscription.plan}</span>
+              </div>
+              <div className="row">
+                <label>Subscription Price:</label>
+                <span>Rs. {active_subscription.price}</span>
+              </div>
+              <div className="row">
+                <label>Subscription End On:</label>
+                <span style={{ color: '#e74c3c' }}>{endTime}</span>
+              </div>
+              <div className="row">
+                <label>Subscription Start At:</label>
+                <span>{startTime}</span>
+              </div>
+            </>
+            : <p style={{ textAlign: "center", margin: "1rem 0" }}>You dont have any Subscription Plan</p>
+        }
+
       </div>
     </div>
   );

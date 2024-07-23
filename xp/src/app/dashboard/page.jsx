@@ -35,30 +35,36 @@ const DashboardPage = () => {
 
   useEffect(() => {
     const dashboardApis = async () => {
-      if (insightsArray) return
-      const response = await getDashboard();
-      const userResponse = await getDashboardCounts();
-      const res = response.data;
-      const userRes = userResponse.data;
-      let errorMessage = "";
-      let getError = {};
+      try {
 
-      if (response.data.success) {
-        setInsightsArray(res);
-      } else {
-        // errorMessage += "Insights, ";
-        // errorMessage = response.data.data
-        getError.insight = true;
-      }
-      if (userResponse.status === 200) {
-        setMyCounts(userRes);
-      } else {
-        getError.todo = true;
-        errorMessage += "Unable to get liked and todo counts";
-      }
-      if (!response.data.success || userResponse.status !== 200) {
-        setError({ ...getError, errorMessage: response?.data.data });
-        toast.error(response?.data.data + ": " + errorMessage);
+
+        if (insightsArray) return
+        const response = await getDashboard();
+        const userResponse = await getDashboardCounts();
+        const res = response.data;
+        const userRes = userResponse.data;
+        let errorMessage = "";
+        let getError = {};
+
+        if (response.data.success) {
+          setInsightsArray(res);
+        } else {
+          // errorMessage += "Insights, ";
+          // errorMessage = response.data.data
+          getError.insight = true;
+        }
+        if (userResponse.status === 200) {
+          setMyCounts(userRes);
+        } else {
+          getError.todo = true;
+          errorMessage += "Unable to get liked and todo counts";
+        }
+        if (!response.data.success || userResponse.status !== 200) {
+          setError({ ...getError, errorMessage: response?.data.data });
+          toast.error(response?.data.data + ": " + errorMessage);
+        }
+      } catch (error) {
+        toast.error(error.message)
       }
     };
     dashboardApis();
