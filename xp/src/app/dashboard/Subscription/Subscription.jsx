@@ -73,9 +73,13 @@ function Subscription() {
                 redirectTarget: "_modal",
             }
 
-            cashfree.checkout(checkoutOptions).then((res) => {
+            cashfree.checkout(checkoutOptions).then(async (res) => {
                 toast.info("Checking Payment Status...")
-                verifyPayment(orderId)
+                if (res?.error?.code) {
+                    toast.error(res?.error?.code)
+                } else {
+                    await verifyPayment(orderId)
+                }
             })
         } catch (error) {
             console.log(error.message)

@@ -4,16 +4,19 @@ const User = require("../models/User_Customer");
 const { subscriptionPacks } = require("./sub_packs");
 
 async function add_Subscription(paymentArr, user) {
-  let paymentObj;
-  if (paymentArr.length > 0) {
-    const x = paymentArr.find((order, i) => order.payment_status == "SUCCESS");
-    if (x) {
-      paymentObj = x;
-    } else {
-      throw new Error("Successfull Payment Not Found");
-    }
-  }
   try {
+    let paymentObj;
+    if (paymentArr.length > 0) {
+      const x = paymentArr.find(
+        (order, i) => order.payment_status == "SUCCESS"
+      );
+      if (x) {
+        paymentObj = x;
+      } else {
+        throw new Error("Successfull Payment Not Found");
+      }
+    }
+
     const findPack = subscriptionPacks.find(
       (order, i) => order.price === paymentObj.order_amount
     );

@@ -73,14 +73,25 @@ router.post("/verifyPayment", async (req, res) => {
 
     Cashfree.PGOrderFetchPayments("2023-08-01", orderId)
       .then(async (response) => {
-        await add_Subscription(response.data, user);
+        if (response.data.length > 0) {
+          const x = response.data.some(
+            (order, i) => order.payment_status == "SUCCESS"
+          );
+          if (x) {
+            await add_Subscription(response.data, user);
+          } else {
+            throw new Error("Payment Failed");
+          }
+        }
         res.json(response.data);
       })
       .catch((error) => {
-        console.error(error);
+        console.log(error.message);
+        res.status(500).json({ data: error.message, success: false });
       });
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
+    res.status(500).json({ data: error.message, success: false });
   }
 });
 
