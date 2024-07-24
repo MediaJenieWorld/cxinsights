@@ -20,8 +20,8 @@ const LikeDislikeFooter = ({ data, disableActions = false }) => {
     const response = await likeHandler(data._id);
     if (response.data.success) {
       setDisliked(false);
+      toast.success(liked ? "Unliked Successfully!!" : "Liked Successfully!!");
       setLiked(!liked);
-      toast.success("Liked Successfully!!");
     } else {
       toast.error(response.data.data || "Failed to perform like action");
     }
@@ -34,9 +34,9 @@ const LikeDislikeFooter = ({ data, disableActions = false }) => {
 
     const response = await dislikeHandler(data._id);
     if (response.data.success) {
-      setDisliked(!disliked);
-      toast.success("Disliked Successfully!!");
       setLiked(false);
+      toast.success(disliked ? "Removed Disliked Successfully!!" : "Disliked Successfully!!");
+      setDisliked(!disliked);
     } else {
       toast.error(response.data.data || "Failed to perform dislike action");
     }

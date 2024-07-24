@@ -4,9 +4,12 @@ import { forgotPasswordEmailVerify } from "@/utils/api";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import "./styles.scss";
+import PasswordInput from "../login/login_components/PasswordInput";
 
 const NewPassword = () => {
   const { token } = useParams();
+  const [showPassword, setShowPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -45,46 +48,31 @@ const NewPassword = () => {
   }, [isVerified]);
 
   return (
-    <div className="NewPassword">
+    <div className="NewPassword full">
       <h2>Set New Password</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex">
           <label htmlFor="password">New Password:</label>
-          <input
-            {...register("password", {
-              required: "Password is required",
-              pattern: {
-                value: /^[A-Z][^\s]{5,}$/,
-                message:
-                  "Password must start with an uppercase letter and be at least 6 characters long",
-              },
-              maxLength: {
-                value: 30,
-                message: "Password length cannot exceed 30 characters",
-              },
-            })}
-            id="password"
-            type="text"
-          />
-          {errors.password && (
-            <span
-              style={{ fontSize: ".7rem", fontWeight: "700", color: "red" }}
-            >
-              {errors.password.message}
-            </span>
-          )}
+          <PasswordInput register={register} />
         </div>
-        <div className="flex">
+        <div className="flex ">
           <label htmlFor="confirmPassword">Confirm Password:</label>
-          <input
-            {...register("confirmPassword", {
-              required: "Confirm Password is required",
-              validate: (value) =>
-                value === getValues("password") || "Passwords do not match",
-            })}
-            id="confirmPassword"
-            type="text"
-          />
+          <div className="input-area">
+
+            <i
+              onClick={() => setShowPassword((pre) => !pre)}
+              className={showPassword ? "pi pi-eye" : "pi pi-eye-slash"}
+            ></i>
+            <input
+              {...register("confirmPassword", {
+                required: "Confirm Password is required",
+                validate: (value) =>
+                  value === getValues("password") || "Passwords do not match",
+              })}
+              id="confirmPassword"
+              type={showPassword ? "text" : "password"}
+            />
+          </div>
           {errors.confirmPassword && (
             <span
               style={{ fontSize: ".7rem", fontWeight: "700", color: "red" }}

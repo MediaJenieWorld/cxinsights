@@ -5,9 +5,8 @@ const firstName = {
     message: "First Name cannot exceed 15 characters",
   },
   pattern: {
-    value: /^[A-Z][a-zA-Z]*$/,
-    message:
-      "First Name must start with an uppercase letter and can only contain letters (uppercase and lowercase)",
+    value: /^[a-zA-Z]*$/,
+    message: "First Name can only contain letters (uppercase and lowercase)",
   },
 };
 
@@ -18,9 +17,8 @@ const lastName = {
     message: "Last Name cannot exceed 15 characters",
   },
   pattern: {
-    value: /^[A-Z][a-zA-Z]*$/,
-    message:
-      "Last Name must start with an uppercase letter and can only contain letters (uppercase and lowercase)",
+    value: /^[a-zA-Z]*$/,
+    message: "Last Name can only contain letters (uppercase and lowercase)",
   },
 };
 
@@ -39,24 +37,24 @@ const businessName = {
     message: "Length cannot exceed 30 characters",
   },
 };
-const pinCode={
+const pinCode = {
   required: "Pin Code is required",
   maxLength: {
     value: 6,
     message: "Pin Code cannot exceed 6 characters",
-    },
-    pattern: {
-      value: /^[0-9]*$/,
-      message: "Pin Code can only contain numbers",
-      },
-}
+  },
+  pattern: {
+    value: /^[0-9]*$/,
+    message: "Pin Code can only contain numbers",
+  },
+};
 
 const Validations = {
   firstName,
   lastName,
   email,
   businessName,
-  pinCode
+  pinCode,
 };
 
 export default Validations;

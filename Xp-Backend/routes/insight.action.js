@@ -292,21 +292,30 @@ router.post("/:postId/like", async (req, res) => {
     }
     const userId = req.user._id;
     const index = post.likes.indexOf(userId);
-
+    let updatedPost = null;
     if (index === -1) {
       // User hasn't liked the post, add like
-      post.likes.push(userId);
+      updatedPost = await Insight.findByIdAndUpdate(
+        postId,
+        { $push: { likes: userId } },
+        { new: true }
+      )
+        .select("bookmarks likes dislikes")
+        .lean();
+
       await User.findByIdAndUpdate(userId, { $push: { liked: postId } });
     } else {
       // User has already liked the post, remove like
       await User.findByIdAndUpdate(userId, { $pull: { liked: postId } });
-      post.likes.splice(index, 1);
+      updatedPost = await Insight.findByIdAndUpdate(
+        postId,
+        { $pull: { likes: userId } },
+        { new: true }
+      )
+        .select("bookmarks likes dislikes")
+        .lean();
     }
     await post.save();
-    const updatedPost = await Insight.findById(postId)
-      .select("bookmarks likes dislikes")
-      .lean();
-
     res.status(200).json({ data: updatedPost, success: true });
   } catch (err) {
     console.error(err);

@@ -65,20 +65,20 @@ const insightSchema = new mongoose.Schema(
     age: {
       type: String,
       default: "",
-      required: true,
+      // required: true,
     },
     race: {
       type: String,
-      enum: [
-        "American",
-        "European",
-        "Asian",
-        "Hispanic",
-        "African",
-        "Alaska Native",
-        "Latino",
-      ],
-      required: true,
+      // enum: [
+      //   "American",
+      //   "European",
+      //   "Asian",
+      //   "Hispanic",
+      //   "African",
+      //   "Alaska Native",
+      //   "Latino",
+      // ],
+      // required: true,
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,

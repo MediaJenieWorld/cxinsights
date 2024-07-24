@@ -9,16 +9,23 @@ import { toast } from "react-toastify";
 import { formatDate } from "@/utils/timeFormatter";
 
 function Comment({ data }) {
-  const {
-    author: { firstName, lastName },
+  let {
+    author,
     text,
     createdAt,
   } = data;
 
+  if (!author?.lastName) {
+    author = {
+      firstName: "user",
+      lastName: "not found",
+    }
+  }
+
   return (
     <>
       <p className="time">{formatDate(createdAt)}</p>
-      <p className="name">By {firstName + " " + lastName}</p>
+      <p className="name">By {author.firstName}  {" " + author.lastName}</p>
       <p className="text">{text}</p>
     </>
   );
@@ -29,29 +36,7 @@ const MyAction_Insight_View = () => {
   const [insightData, setInsightData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [comments, setComments] = useState([
-    {
-      author: {
-        firstName: "Kartik",
-        lastName: "Saini",
-      },
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae perspiciatis unde labore officiis, minus vel obcaecati dolore ratione. Non esse aliquid magni. ",
-    },
-    {
-      author: {
-        firstName: "Preet",
-        lastName: "Saini",
-      },
-      text: "This is a sample comment",
-    },
-    {
-      author: {
-        firstName: "Harsh",
-        lastName: "Saini",
-      },
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae perspiciatis unde labore officiis, minus vel obcaecati dolore ratione. Non esse aliquid magni. ",
-    },
-  ]);
+  const [comments, setComments] = useState([])
   const { register, setValue, handleSubmit } = useForm();
 
   useEffect(() => {

@@ -50,7 +50,7 @@ const ForgotPassword = () => {
   }
 
   return (
-    <div className="NewPassword">
+    <div className="NewPassword full">
       <h2>Forgot Password</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex-column">

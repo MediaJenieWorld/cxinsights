@@ -31,17 +31,19 @@ const SubscriptionPacksDetails = () => {
 
   return (
     <div className="Subscription">
-      <label htmlFor="#">CHOOSE YOUR SUBSCRIPTION</label>{" "}
+      <h2 style={{ color: "var(--star-color)" }} >Subscription details after free trial of 7 days</h2>{" "}
       <div className="Subscription__container">
         {subscriptionPacks.map((subs, i) => {
+          if (i === 0) return
           return (
-            <div
-              className={"item"} style={{borderBottom:"1px solid yellow"}}
-              key={i}
-            >
+            <div className={"item"} key={i}>
               <div className="right">
                 <h3>{subs.name}</h3>
                 <p>{subs.price}</p>
+
+                {/* <i className="pi pi-info-circle"></i> */}
+              </div>
+              <div className="left">
                 <Custom_Centered_DynamicDialog
                   label="info"
                   dialogStyles={{ width: "max-content" }}
@@ -67,7 +69,6 @@ const SubscriptionPacksDetails = () => {
                     </div>
                   </div>
                 </Custom_Centered_DynamicDialog>
-                {/* <i className="pi pi-info-circle"></i> */}
               </div>
               {/* <div className="left">
                 <i className="pi pi-check"></i>
