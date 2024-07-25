@@ -192,7 +192,7 @@ const AccountForm = () => {
           )}
         </div>
         {isCreatingAccount &&
-          <>
+          <div className="signUp">
             <AddressForm isCreatingAccount={isCreatingAccount} setValue={setValue} errors={errors} register={register} />
             <div data-state={isCreatingAccount} className="flex-column">
               <FormInput register={register} errors={errors} register_key={"pinCode"} label={"Zip/Pin Code"} type="number" />
@@ -202,9 +202,8 @@ const AccountForm = () => {
               setBusinessType={setBusinessType}
               register={register}
               businessType={businessType} />
-
             <SubscriptionPacksDetails />
-          </>}
+          </div>}
         {/* 
         {isCreatingAccount && <BusinessForm
               isCreatingAccount={isCreatingAccount}

@@ -4,11 +4,19 @@
 import { Country, State, City } from 'country-state-city';
 import { useEffect, useState } from 'react';
 
-const AddressForm = ({ errors, setValue, register, isCreatingAccount }) => {
+const AddressForm = ({ errors, setValue, register, isCreatingAccount, profileUpdateData }) => {
 
   const [country, setCountry] = useState(''); // default country
   const [state, setState] = useState(''); // default state
   const [city, setCity] = useState(''); // default city
+
+  useEffect(() => {
+    if (profileUpdateData) {
+      setCountry(profileUpdateData.country)
+      setState(profileUpdateData.state)
+      setCity(profileUpdateData.city)
+    }
+  }, [])
 
   useEffect(() => {
     setValue('country', country);

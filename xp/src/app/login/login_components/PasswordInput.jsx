@@ -14,9 +14,8 @@ const PasswordInput = ({ register }) => {
         {...register("password", {
           required: "Password is required",
           pattern: {
-            value: /^[A-Za-z\d]{6,}$/,
-            message:
-              "Password must contain at least 6 characters, including letters (uppercase and lowercase) and digits"
+            value: /^[A-Za-z\d!@#$%^&*()_+-=]{6,}$/,
+            message: "Password must contain at least 6 characters, including letters (uppercase and lowercase), digits, and symbols like !@#$%^&*()_+-="
           },
           minLength: {
             value: 6,
@@ -33,5 +32,4 @@ const PasswordInput = ({ register }) => {
     </div>
   );
 };
-
 export default PasswordInput;

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./styles.scss";
 import { viewProfile_Api } from "@/utils/api";
 import { formatDate } from "@/utils/timeFormatter";
+import { Link } from "react-router-dom";
 
 const UserProfilePage = () => {
   const [user, setUser] = useState(null);
@@ -57,14 +58,36 @@ const UserProfilePage = () => {
   } = user || {};
   const startTime = formatDate(active_subscription.startTime)
   const endTime = formatDate(active_subscription.endTime)
-
   return (
-    <div className="dashboard">
-      <h1>Dashboard Page</h1>
-      <h3>
-        <span>{`${firstName} ${lastName}`}</span>, Welcome to the dashboard!
+    <div className="User-Profile-Page">
+      <Link to="update" className="button start">Update Profile</Link>  <h3>
+        <span>{`${firstName} ${lastName}`}</span>,<br /> Welcome to the Profile information!
       </h3>
       <div className="user-details">
+        <h2 style={{ textAlign: "center", padding: "1rem" }}>Active Subscription Plan</h2>
+        {
+          active_subscription ?
+            <>
+              <div className="row">
+                <label>Subscription Plan:</label>
+                <span>{active_subscription.plan}</span>
+              </div>
+              <div className="row">
+                <label>Subscription Price:</label>
+                <span>Rs. {active_subscription.price}</span>
+              </div>
+              <div className="row">
+                <label>Subscription Start At:</label>
+                <span>{startTime}</span>
+              </div>
+              <div className="row">
+                <label>Subscription End On:</label>
+                <span style={{ color: '#e74c3c' }}>{endTime}</span>
+              </div>
+            </>
+            : <p style={{ textAlign: "center", margin: "1rem 0" }}>You dont have any Subscription Plan</p>
+        }
+        <hr />
         <div className="row">
           <label>First Name:</label>
           <span>{firstName}</span>
@@ -114,29 +137,6 @@ const UserProfilePage = () => {
           <span>{industrySegment}</span>
         </div>
         <hr />
-        <h2 style={{ textAlign: "center", padding: "1rem" }}>Active Subscription Plan</h2>
-        {
-          user?.active_subscription ?
-            <>
-              <div className="row">
-                <label>Subscription Plan:</label>
-                <span>{active_subscription.plan}</span>
-              </div>
-              <div className="row">
-                <label>Subscription Price:</label>
-                <span>Rs. {active_subscription.price}</span>
-              </div>
-              <div className="row">
-                <label>Subscription End On:</label>
-                <span style={{ color: '#e74c3c' }}>{endTime}</span>
-              </div>
-              <div className="row">
-                <label>Subscription Start At:</label>
-                <span>{startTime}</span>
-              </div>
-            </>
-            : <p style={{ textAlign: "center", margin: "1rem 0" }}>You dont have any Subscription Plan</p>
-        }
 
       </div>
     </div>
