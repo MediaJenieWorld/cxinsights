@@ -1,0 +1,17 @@
+.loading {
+  background-color: var(--purple);
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  transform: translateX(-100%);
+  animation: toRightLoading var(--animation-time) forwards ease-in-out;
+}
+
+@keyframes toRightLoading {
+  100% {
+    transform: translateX(0);
+  }
+}

@@ -1,0 +1,289 @@
+.ContactPage {
+    padding: 0;
+
+    .section-1,
+    .section-2 {
+        padding: calc(var(--main-p-x) * 2) calc(var(--main-p-x) * 8);
+        display: flex;
+        flex-direction: column;
+        gap: calc(var(--main-p-x) * 1.5);
+        align-items: flex-start;
+
+        button {
+            margin-top: 1rem;
+        }
+    }
+
+    .section-2 {
+
+        h4 {
+            color: var(--purple);
+        }
+
+        .flex {
+            display: flex;
+            position: relative;
+            width: 100%;
+            gap: calc(var(--main-p-x) * 1.5);
+
+            >div {
+                flex-basis: calc(50% - calc(var(--main-p-x) * 1.5));
+                min-width: 300px;
+            }
+
+            .col-2 {
+                padding-left: 1rem;
+                display: flex;
+                flex-direction: column;
+                gap: calc(var(--main-p-x) * 1.5);
+
+                p {
+                    display: flex;
+                    align-items: center;
+                    gap: .5rem;
+                }
+            }
+
+            .col-1 {
+                border-right: 2px solid var(--purple);
+            }
+        }
+    }
+
+    .Map {
+        iframe {
+            width: 100%;
+        }
+    }
+
+    .section-4 {
+        padding: calc(var(--main-p-x) * 2) 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding-top: 0;
+
+        .col-1,
+        .col-2 {
+            flex-basis: calc(50% - 5px);
+            min-width: 220px;
+            padding: calc(var(--main-p-x) * 6) calc(var(--main-p-x) * 4);
+            cursor: pointer;
+
+            h3 {
+                color: var(--purple);
+            }
+        }
+
+        .col-1 {
+            background-color: #EDE7E7;
+        }
+
+        .col-2 {
+            background-color: #F5F5F5;
+        }
+    }
+
+    .Form {
+        padding: calc(var(--main-p-x) * 2) calc(var(--main-p-x) * 4);
+        display: flex;
+        flex-direction: column;
+        gap: calc(var(--main-p-x) * 4);
+
+        h2 {
+            text-align: center;
+        }
+
+        .fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: calc(var(--main-p-x) * 1.5);
+
+            input {
+                border: 1px solid #7D7D7D;
+                padding: 10px 20px;
+                outline: none;
+                transition: border-color .2s ease;
+                font-weight: 500;
+                font-family: "Poppins", sans-serif;
+                font-size: var(--text-28);
+
+                &:hover {
+                    border-color: #000;
+                }
+            }
+        }
+
+        textarea {
+            font-family: "Poppins", sans-serif;
+            border: 1px solid #7D7D7D;
+            padding: 10px 20px;
+            min-height: 200px;
+            outline: none;
+            resize: vertical;
+            transition: border-color .2s ease;
+            font-weight: 500;
+            font-size: var(--text-28);
+
+            &:hover {
+                border-color: #000;
+            }
+        }
+
+        .flex-icons {
+            display: flex;
+            gap: 1.5rem;
+            padding: 0 10px;
+            padding-bottom: calc(var(--main-p-x) * 2);
+            height: 200px;
+            align-items: center;
+            overflow-x: auto;
+
+            .item {
+                position: relative;
+                padding: 10px;
+                height: 140px;
+                width: 140px;
+                display: flex;
+                align-items: center;
+                border-radius: 50%;
+
+                img {
+                    object-fit: contain;
+                    padding: 5px;
+                }
+
+                p {
+                    position: absolute;
+                    bottom: -1.75em;
+                    text-align: center;
+                    left: 50%;
+                    transition: opacity .2s ease-in-out;
+                    transform: translateX(-50%);
+                    opacity: 0;
+                }
+
+                .check {
+                    position: absolute;
+                    top: 0px;
+                    text-align: center;
+                    right: 4px;
+                    height: 35px;
+                    width: 35px;
+                    transition: opacity .2s ease-in-out;
+                    opacity: 0;
+                }
+
+                &:hover {
+                    background-color: #f3f3f3;
+
+                    p {
+                        opacity: 1;
+                    }
+                }
+
+                &.active {
+                    box-shadow: 0px 4px 6px 1px #c1c1c1;
+
+                    .check {
+                        color: #018235
+                    }
+
+                    .check,
+                    p {
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+
+        .submit {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+
+            button {
+                background-color: var(--purple);
+                color: #fff;
+                cursor: pointer;
+                padding: 10px 30px;
+                width: 320px;
+                transition: all .4s ease-in-out;
+                filter: drop-shadow(0px 0px 3px rgb(0 0 0 / 25%));
+
+                &:hover {
+                    background-color: #000000;
+                    color: white;
+                    filter: drop-shadow(0px 0px 6px rgb(0 0 0 / 25%));
+                }
+            }
+        }
+    }
+}
+
+
+@media screen and (max-width: 876px) {
+    .ContactPage {
+        font-size: 8px;
+        --main-p-x: .5rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .ContactPage {
+        font-size: 8px;
+
+        .section-1,
+        .section-4 {
+            margin: 2rem 0;
+        }
+
+        .section-2 {
+            margin: 2rem 0;
+
+            .flex {
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+                gap: 2rem;
+                flex-direction: column-reverse;
+
+                >div {
+                    padding: 0 !important;
+                }
+
+                .col-1 {
+                    border-color: transparent;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .ContactPage {
+        font-size: 8px;
+        --main-p-x: .25rem;
+
+        pre {
+            text-wrap: pretty;
+        }
+
+        .section-1,
+        .section-2 {
+            overflow-x: hidden;
+        }
+
+        .section-4 {
+
+            .col-1,
+            .col-2 {
+                width: 100%;
+                flex-basis: 100%;
+            }
+        }
+
+        .Form .fields {
+            grid-template-columns: 1fr;
+        }
+    }
+}

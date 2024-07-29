@@ -1,0 +1,366 @@
+.About {
+  // background-color: rgba(255, 0, 0, 0.099);
+  padding: 0;
+
+  .image-section {
+    .carousel {
+      .carousel-status {
+        color: #000000;
+        text-shadow: none;
+      }
+
+      .Image-card img {
+        background-color: #842bf75c;
+        object-fit: cover;
+        height: calc(100vh - var(--header-h));
+        width: 100%;
+      }
+
+      .thumbs-wrapper {
+        display: none;
+      }
+
+      .next-arrow,
+      .pre-arrow {
+        margin: 0 var(--main-p-x);
+        z-index: 10;
+        background-color: #ffffff83;
+        padding: 5px;
+        border-radius: 4px;
+        position: absolute;
+        right: 0px;
+        top: 50%;
+        width: 60px;
+        border: none;
+        transform: translateY(-50%);
+        transition: background-color 0.3s ease-in-out, opacity 0.2s ease-in-out;
+        opacity: 0;
+
+        img {
+          height: 30px;
+          margin: auto 0;
+          object-fit: contain;
+        }
+
+        &:hover {
+          background-color: white;
+          color: rgba(0, 0, 0, 0.155);
+        }
+      }
+
+      .pre-arrow {
+        left: 0px;
+        top: 50%;
+      }
+
+      .control-dots {
+        .dot {
+          background: var(--purple);
+        }
+      }
+    }
+
+    &:hover {
+
+      .next-arrow,
+      .pre-arrow {
+        opacity: 1;
+      }
+    }
+  }
+
+  pre {
+    font-family: 'Poppins';
+    line-height: 1.2em
+  }
+
+  .section-2 {
+    padding: calc(var(--main-p-x) * 6) calc(var(--main-p-x) * 4);
+
+    h1 {
+      line-height: var(--text-20);
+    }
+
+    p {
+      padding-top: 2em;
+    }
+  }
+
+  .hero-section {
+    position: relative;
+
+    img {
+      height: 100vh;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    .overlay {
+      background-color: #00000054;
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      justify-content: center;
+      padding: var(--main-p-x);
+      align-items: center;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      text-align: center;
+
+      h1,
+      h3,
+      h4 {
+        color: #fff;
+      }
+
+      h3 {
+        margin-top: 1em;
+      }
+
+      h4 {
+        margin-top: calc(var(--main-p-x) * 2);
+        padding: 0 var(--main-p-x);
+      }
+    }
+  }
+
+  .section-4 {
+    display: flex;
+    justify-content: center;
+    padding: calc(var(--main-p-x) * 6) calc(var(--main-p-x) * 4);
+
+    .text-center-wrapper {
+      width: 90%;
+      border-left: 6px solid var(--purple);
+      padding: 0 var(--main-p-x);
+
+      p {
+        padding-top: 1em;
+      }
+    }
+  }
+
+  .Big-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    position: relative;
+
+    .main-backImage {
+      display: none;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      height: 100%;
+      object-fit: cover;
+      width: 100%;
+    }
+
+    .left,
+    .right {
+
+      flex-basis: 50%;
+    }
+
+    .left {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 0px 2em;
+      position: relative;
+      height: 100%;
+      padding-top: calc(125px + 7em);
+
+      img {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        object-fit: cover;
+        left: 0;
+        z-index: -1;
+
+      }
+
+      pre {
+        color: white;
+        margin-right: 25%;
+        padding-bottom: 1em;
+        border-bottom: 4px solid #ffdd2c;
+      }
+
+    }
+
+    .right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: stretch;
+        position: relative;
+        left: -15%;
+        height: calc(100% - 250px);
+        gap: var(--col-gap);
+        color: black;
+        background-color: #ffff;
+
+        .text-wrapper {
+          padding: 4em;
+
+          p {
+            margin-top: 2em;
+          }
+        }
+
+        button {
+          border-radius: 0px;
+          width: max-content;
+          margin-top: 2em;
+
+          &:hover {
+            color: white;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+@media screen and (max-width:1180px) {
+  .About {
+
+    .Big-container {
+      display: block;
+      height: unset;
+
+      .main-backImage {
+        display: block;
+        width: 85%;
+      }
+
+      .left {
+        height: max-content;
+        padding: calc(var(--main-p-x) * 3.5) calc(var(--main-p-x) * 2);
+        padding-left: 15%;
+        justify-content: flex-start;
+
+        pre {
+          padding: 0 calc(var(--main-p-x) * 2);
+          padding-bottom: 1em;
+        }
+
+        img {
+          display: none;
+        }
+
+      }
+
+      .right {
+        position: relative;
+        padding-left: 15%;
+
+        .card {
+          left: 0;
+
+          height: max-content;
+
+          .text-wrapper {
+            padding: calc(var(--main-p-x) * 2.5) calc(var(--main-p-x) * 2);
+
+            p {
+              margin-top: 1em;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+@media screen and (max-width:800px) {
+  .About {
+    padding: 0;
+    font-size: 10px;
+
+    .image-section {
+      .carousel {
+
+        .pre-arrow,
+        .next-arrow {
+          opacity: 1;
+          scale: .8;
+        }
+      }
+    }
+
+    .section-2 {
+      padding: calc(var(--main-p-x) * 3.5) calc(var(--main-p-x) * 2);
+
+    }
+
+    .section-4 {
+      padding: calc(var(--main-p-x) * 3.5) calc(var(--main-p-x) * 2);
+
+      .text-center-wrapper {
+        width: unset;
+      }
+    }
+
+    .Big-container {
+      display: block;
+      height: unset;
+
+      .main-backImage {
+        display: none;
+      }
+
+      .left {
+        height: max-content;
+        padding: calc(var(--main-p-x) * 3.5) calc(var(--main-p-x) * 2);
+
+        img {
+          display: block;
+        }
+
+        pre {
+          padding: 0;
+          padding-bottom: 1em;
+
+        }
+      }
+
+      .right {
+        padding: 0;
+
+        .card {
+          left: 0px;
+          height: max-content;
+
+          .text-wrapper {
+            padding: calc(var(--main-p-x) * 2.5) calc(var(--main-p-x) * 2);
+
+            p {
+              margin-top: 1em;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width:480px) {
+  .About {
+    font-size: 7px;
+  }
+}
