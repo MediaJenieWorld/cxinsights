@@ -4,24 +4,24 @@ import "./style.scss";
 
 const WorkPage = () => {
   const images = [
-    "/assets/Work/man.png",
-    "/assets/msg593987909-845.jpg",
-    "/assets/Work/image-2.png",
-    "/assets/Work/image-3.png",
-    "/assets/Work/image-4.png",
+    "/assets/Work/man.webp",
+    "/assets/Work/red-blue.webp",
+    "/assets/Work/image-2.webp",
+    "/assets/Work/image-3.webp",
+    "/assets/Work/image-4.webp",
   ];
   const images2 = [
-    "/assets/Work/Rectangle 31.png",
-    "/assets/Work/Rectangle 32.png",
-    "/assets/Work/2149709933 1.png",
-    "/assets/Work/Rectangle 35.png",
-    "/assets/Work/Rectangle 34.png",
+    "/assets/Work/rectangle 31.webp",
+    "/assets/Work/red-blue.webp",
+    "/assets/Work/tea.webp",
+    "/assets/Work/rectangle-35.webp",
+    "/assets/Work/rectangle 34.webp",
   ];
 
   const cards = [
-    "/assets/blue-particle.jpg",
-    "/assets/msg593987909-835.jpg",
-    "/assets/msg593987909-840.jpg",
+    "/assets/Home/blue-particle.webp",
+    "/assets/Home/red-rays.webp",
+    "/assets/Home/blue-ball.webp",
     // "/assets/blue-particle.jpg",
   ]
 
@@ -35,7 +35,7 @@ const WorkPage = () => {
 
   return (
     <div className="Work">
-      <CoverPageImage src={"/assets/Work/cover.png"} />
+      <CoverPageImage src={"/assets/Work/cover.webp"} />
       <div className="section-1">
         <h4 className="text-32 text-600">Our Work</h4>
         <pre className="text-60 text-600">

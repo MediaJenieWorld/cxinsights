@@ -1,0 +1,165 @@
+import axios from "axios";
+import { server_base_Url } from "./temp_tokenKey";
+import Cookies from "universal-cookie";
+import { cookiesKey } from "@/store/User_Context";
+
+const instance = axios.create({
+  baseURL: server_base_Url,
+  timeout: 60000,
+});
+
+instance.interceptors.request.use(
+  async function (config) {
+    try {
+      config.headers["Content-Type"] = "application/json";
+      config.headers.Accept = "application/json";
+      const cookies = new Cookies();
+      const token = cookies.get(cookiesKey);
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    } catch (error) {
+      console.error("error ==> ", error.message);
+    }
+    return config;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
+);
+
+instance.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
+);
+
+const handleRequest = async (request) => {
+  try {
+    return await request();
+  } catch (error) {
+    console.error("error ==> ", error.message);
+    return { data: { data: error.message || "Server Error", success: false } };
+  }
+};
+
+export const login = async (data) => {
+  return handleRequest(() => instance.post("auth/login", data));
+};
+
+export const signUp = async (data) => {
+  return handleRequest(() => instance.post("auth/createAccount", data));
+};
+
+export const viewProfile_Api = async () => {
+  return handleRequest(() => instance.get("Zensight/users/profile"));
+};
+
+export const getDashboardCounts = async () => {
+  return handleRequest(() => instance.get("Zensight/users/counts"));
+};
+
+export const getActionsList = async () => {
+  return handleRequest(() => instance.get(`Zensight/users/myTodos`));
+};
+
+export const getImplements = async () => {
+  return handleRequest(() => instance.get(`Zensight/users/myImpletements`));
+};
+
+export const getDashboard = async () => {
+  return handleRequest(() => instance.get("Zensight/insights/counts"));
+};
+
+export const getInsights = async (query) => {
+  return handleRequest(() => instance.get("Zensight/insights?" + query));
+};
+
+export const createInsightsPost = async (formData) => {
+  return handleRequest(() => instance.post("Zensight/insights", formData));
+};
+
+export const getSingleInsights = async (id) => {
+  return handleRequest(() =>
+    instance.post("Zensight/insights/getInsight", { id })
+  );
+};
+
+export const likeHandler = async (id) => {
+  return handleRequest(() => instance.post(`Zensight/insights/${id}/like`));
+};
+
+export const bookmarksHandler = async (id) => {
+  return handleRequest(() =>
+    instance.post(`Zensight/insights/${id}/bookmarks`)
+  );
+};
+
+export const save_Unsave_Implement_Handler = async (id) => {
+  return handleRequest(() =>
+    instance.post(`Zensight/insights/${id}/implement/add`)
+  );
+};
+
+export const giveStarsHandler = async ({ id, stars }) => {
+  return handleRequest(() =>
+    instance.post(`Zensight/insights/${id}/implement/stars`, { stars })
+  );
+};
+
+export const dislikeHandler = async (id) => {
+  return handleRequest(() => instance.post(`Zensight/insights/${id}/dislike`));
+};
+
+export const createComment = async ({ id, text }) => {
+  return handleRequest(() =>
+    instance.post(`Zensight/insights/${id}/comments`, { text })
+  );
+};
+
+export const forgotPasswordEmailSend = async (body) => {
+  return handleRequest(() => instance.post(`auth/forgotpassword`, body));
+};
+
+export const sendCodeToEmailHandler = async (body) => {
+  return handleRequest(() => instance.post(`auth/sendCodeToEmail`, body));
+};
+
+export const confirmVerifyEmailHandler = async (body) => {
+  return handleRequest(() => instance.post(`auth/confirmVerifyEmail`, body));
+};
+
+export const forgotPasswordEmailVerify = async (body) => {
+  return handleRequest(() =>
+    instance.post(`auth/forgotpassword/${body.token}`, body)
+  );
+};
+
+export const createPaymentOrder = async ({ pack }) => {
+  return handleRequest(() => instance.post(`subscription/payment`, { pack }));
+};
+
+export const activateFreeTrail_Api = async () => {
+  return handleRequest(() => instance.get(`subscription/free_trail`));
+};
+
+export const verifyPaymentApi = async ({ orderId }) => {
+  return handleRequest(() =>
+    instance.post(`subscription/verifyPayment`, { orderId })
+  );
+};
+
+export const getFormsData = async () => {
+  return handleRequest(() => instance.get("Clueberry/get_form"));
+};
+
+export const getProfilesData = async () => {
+  return handleRequest(() => instance.get("Clueberry/get_profiles"));
+};
+
+export const createProfileHandler = async (data) => {
+  return handleRequest(() => instance.post(`Clueberry/create_profile`, data));
+};

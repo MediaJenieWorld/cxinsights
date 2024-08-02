@@ -3,16 +3,16 @@ import { Carousel } from "react-responsive-carousel";
 
 function arrowNext(a) {
   return (
-    <button onClick={a} className="next-arrow">
-      <img loading="lazy" width={24} height={16} src="/icons/arrow-right.svg" />
+    <button onClick={a} className="next-arrow" aria-labelledby="next btn" title="Next Arrow" aria-label={"next"}>
+      <img loading="lazy" width={24} height={16} src="/icons/arrow-right.svg" alt="next-content" />
     </button>
   );
 }
 
 function arrowPre(a) {
   return (
-    <button onClick={a} className="pre-arrow">
-      <img loading="lazy" width={24} height={16} src="/icons/arrow-left.svg" />
+    <button onClick={a} className="pre-arrow" aria-labelledby="next btn" title="Next Arrow" aria-label={"previous"}>
+      <img loading="lazy" width={24} height={16} src="/icons/arrow-left.svg" alt="pre-content" />
     </button>
   );
 }
@@ -33,10 +33,11 @@ const ImageSlider = ({ data = fakeImagesData }) => {
       infiniteLoop={true}
       showArrows={true}
       showThumbs={false}
+      renderIndicator={(clickHandler, isSelected, index) => <li onClick={clickHandler} key={index} className={`dot ${isSelected ? "selected" : ""}`} ></li>}
     >
       {data.map((imgSrc, index) => (
         <div key={index} className="Image-card">
-          <img loading="lazy" src={imgSrc} alt="test" />
+          <img loading="lazy" src={imgSrc} alt={`Carousel Image - ${index + 1}`} />
         </div>
       ))}
     </Carousel>

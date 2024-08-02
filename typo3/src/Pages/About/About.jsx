@@ -1,4 +1,3 @@
-import ImageSlider from "@/Components/Image-Slider/Slider";
 import "./style.scss";
 import CoverPageImage from "@/Components/CoverPage";
 
@@ -16,7 +15,7 @@ Work Culture`
 const About = () => {
   return (
     <div className="About">
-      <CoverPageImage src="/assets/Home/Our Story.png" />
+      <CoverPageImage src="/assets/Home/Our Story.webp" />
       <div className="section-2">
         <pre style={{ fontFamily: 'Poppins', lineHeight: "1.2em" }} className="text-84 text-600">
           {story}
@@ -29,7 +28,7 @@ const About = () => {
         <ImageSlider />
       </div> */}
       <div className="hero-section">
-        <img loading="lazy" src="/assets/Home/About-Hero.png" alt="Banner" />
+        <img loading="lazy" src="/assets/Home/About-Hero.webp" alt="Banner" />
         <div className="overlay">
           <h1 className="text-84 text-700">{headingText}</h1>
           <h3 className="text-48 text-400">{subHeadingText}</h3>
@@ -51,7 +50,7 @@ const About = () => {
       <div id="section5" className="Big-container">
         <img loading="lazy"
           className="main-backImage"
-          src="/assets/Home/About-half-card.png"
+          src="/assets/Home/About-half-card.webp"
           alt="bg-image"
           height="700"
           width="500"
@@ -59,7 +58,7 @@ const About = () => {
         <div className="left parent">
           <img loading="lazy"
             className="backImage"
-            src="/assets/Home/About-half-card.png"
+            src="/assets/Home/About-half-card.webp"
 
             alt="bg-image"
             height="700"

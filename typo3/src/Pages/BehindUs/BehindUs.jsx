@@ -1,5 +1,5 @@
 
-import TestimonialsSlider from "@/Components/Testomonials/Slider";
+import TestimonialsSlider from "@/Components/Testomonials/Testimonial_Slider";
 import "./style.scss"
 import CoverPageImage from "@/Components/CoverPage";
 
@@ -8,7 +8,7 @@ const BehindUs = () => {
 Young, crazy, old & wild.`
   return (
     <div className='BehindUs'>
-      <CoverPageImage src={"/assets/Home/Behind-Hero.png"} />
+      <CoverPageImage src={"/assets/Home/Behind-Hero.webp"} />
       <div className="section-2">
         <pre style={{ fontFamily: 'Poppins', lineHeight: "1.2em" }} className="text-84 text-600">
           {story}
@@ -18,20 +18,7 @@ Young, crazy, old & wild.`
         </p>
       </div>
       <div className="usersList">
-        <UserCard imgSrc={"/assets/BehindUs/Rectangle 8 (1).jpg"} />
-        <UserCard imgSrc={"/assets/BehindUs/Rectangle 9.jpg"} />
-        <UserCard imgSrc={"/assets/BehindUs/Rectangle 10.jpg"} />
-        <UserCard imgSrc={"/assets/BehindUs/Rectangle 11.jpg"} />
-
-        <UserCard imgSrc={"/assets/BehindUs/image 2.png"} />
-        <UserCard imgSrc={"/assets/BehindUs/Mask group.jpg"} />
-        <UserCard imgSrc={"/assets/BehindUs/Mask group (1).jpg"} />
-        <UserCard imgSrc={"/assets/BehindUs/Rectangle 15.png"} />
-
-        <UserCard imgSrc={"/assets/BehindUs/Mask group.png"} />
-        <UserCard imgSrc={"/assets/BehindUs/Mask group (2).jpg"} />
-        <UserCard imgSrc={"/assets/BehindUs/image 6.png"} />
-        <UserCard imgSrc={"/assets/BehindUs/Mask group (3).jpg"} />
+        {Array.from({ length: 12 }, (val, i) => <UserCard key={i} imgSrc={`/assets/BehindUs/mask (${i + 1}).webp`} />)}
       </div>
       <div className="testimonials">
         <h3 className="text-32 text-700 text-container">Testimonial</h3>

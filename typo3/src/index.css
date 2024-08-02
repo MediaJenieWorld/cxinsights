@@ -5,35 +5,40 @@
 }
 @font-face {
   font-family: "Poppins";
-  src: url("/Poppins/Poppins-Light.ttf") format("truetype");
+  src: local("Pacifico Regular"), local("Pacifico-Regular"),
+    url("/Poppins/Poppins-Light.ttf") format("truetype");
   font-weight: 300;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Poppins";
-  src: url("/Poppins/Poppins-Regular.ttf") format("truetype");
+  src: local("Pacifico Regular"), local("Pacifico-Regular"),
+    url("/Poppins/Poppins-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Poppins";
-  src: url("/Poppins/Poppins-Medium.ttf") format("truetype");
+  src: local("Pacifico Regular"), local("Pacifico-Regular"),
+    url("/Poppins/Poppins-Medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Poppins";
-  src: url("/Poppins/Poppins-SemiBold.ttf") format("truetype");
+  src: local("Pacifico Regular"), local("Pacifico-Regular"),
+    url("/Poppins/Poppins-SemiBold.ttf") format("truetype");
   font-weight: 600;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Poppins";
-  src: url("/Poppins/Poppins-Bold.ttf") format("truetype");
+  src: local("Pacifico Regular"), local("Pacifico-Regular"),
+    url("/Poppins/Poppins-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
 }
@@ -85,7 +90,7 @@ body.vmax {
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: "Poppins", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   --header-h: 60px;
   --main-p-x: 1rem;
   --main-p-y: 1rem;
@@ -207,12 +212,14 @@ pre {
   }
   &.purple {
     background-color: var(--purple);
+    color: #fff;
     a {
-      color: #eee;
+      color: #fff;
     }
   }
   &:hover {
     background-color: #000000;
+    color: white;
     a {
       color: white;
     }

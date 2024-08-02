@@ -5,22 +5,22 @@ const fakeCardData = [
   {
     category: "SERVICE",
     label: "User Research & Insights",
-    imgSrc: "/assets/msg593987909-835.jpg",
+    imgSrc: "/assets/Service/msg593987909-835.webp",
   },
   {
     category: "CASE STUDY",
     label: "User Research & Insights",
-    imgSrc: "/assets/msg593987909-836.jpg",
+    imgSrc: "/assets/Service/msg593987909-836.webp",
   },
   {
     category: "FEATURED WORK",
     label: "User Research & Insights",
-    imgSrc: "/assets/owl.jpg",
+    imgSrc: "/assets/Service/owl.webp",
   },
   {
     category: "HAND PICKED",
     label: "User Research & Insights",
-    imgSrc: "/assets/woman2.jpg",
+    imgSrc: "/assets/Service/woman.webp",
   },
 ];
 
@@ -73,7 +73,7 @@ const DetailsPage = () => {
         <div className="left parent">
           <img loading="lazy"
             className="backImage"
-            src="/assets/Service/float-card.png"
+            src="/assets/Service/float-card.webp"
             alt="bg-image"
             height="700"
             width="500"

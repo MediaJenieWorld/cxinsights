@@ -1,5 +1,7 @@
-import TestimonialSlider from "@/Components/Testomonials/Slider";
+import TestimonialSlider from "@/Components/Testomonials/Testimonial_Slider";
 import "./style.scss";
+import KnowMoreBtn from "@/Components/KnowMoreBtn";
+import ImageComp from "@/Components/Image";
 
 const headingText = `Bringing Your
 Brand & Customers Closer
@@ -10,18 +12,13 @@ const descriptionText = "Grow sales, retention, loyalty and your brand through e
 const story = `We are a customer-experience
 agency from Bangalore, India.`
 // eslint-disable-next-line react/prop-types
-const KnowMoreBtn = ({ btnClass = "", link, lable = "KNOW MORE" }) => {
-  return (
-    <button className={btnClass + " button"}>
-      <a href={link || "#link"}>{lable}</a>
-    </button>
-  );
-};
 const Home = () => {
   return (
     <div className="home">
       <div className="hero-section">
-        <img loading="lazy" src="/assets/Home/Home-Hero-Image.png" alt="Banner" />
+        <img style={{ objectFit: "cover" }}
+          loading="eager"
+          height={"960px"} width={"100%"} src="/assets/Home/Home-Hero-Image.webp" alt="Banner" />
         <div className="overlay">
           <pre className="text-84 text-700">{headingText}</pre>
           <h3 className="text-48 text-500">{subHeadingText}</h3>
@@ -33,12 +30,12 @@ const Home = () => {
         <h4 className="text-32 text-600">Introduction</h4>
         <pre className="text-60 text-600">{story}
         </pre>
-        <KnowMoreBtn btnClass="purple" lable="View Services" />
+        <KnowMoreBtn btnClass="purple" label="View Services" />
       </div>
       <div className="cards-section">
         <div className="card">
-          <img loading="lazy"
-            src="/assets/blue-particle.jpg"
+          <ImageComp loading="lazy"
+            src="Home/blue-particle.webp"
             alt="blue.jpg"
             height={400}
             width={400}
@@ -54,8 +51,8 @@ const Home = () => {
           </div>
         </div>
         <div className="card">
-          <img loading="lazy"
-            src="/assets/red-rays.jpg"
+          <ImageComp loading="lazy"
+            src="Home/red-rays.webp"
             alt="blue.jpg"
             height={400}
             width={400}
@@ -71,8 +68,8 @@ const Home = () => {
           </div>
         </div>
         <div className="card">
-          <img loading="lazy"
-            src="/assets/blue-ball.jpg"
+          <ImageComp loading="lazy"
+            src="Home/blue-ball.webp"
             alt="blue.jpg"
             height={400}
             width={400}
@@ -94,9 +91,9 @@ const Home = () => {
       </div>
       <div id="section6" className="Big-container">
         <div className="left parent">
-          <img loading="lazy"
+          <ImageComp loading="lazy"
             className="backImage"
-            src="/assets/Home/Card-Over@2x.png"
+            src="Home/Card.webp"
             alt="bg-image"
             height="700"
             width="500"

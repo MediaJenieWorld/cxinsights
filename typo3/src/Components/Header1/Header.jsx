@@ -1,7 +1,65 @@
 import { useEffect, useState } from "react";
 import "./style.scss";
-import { menuItems } from "./const";
 import { Link, useLocation } from "react-router-dom";
+
+const menuItems = [
+  {
+    title: "Home",
+    url: "/home",
+  },
+  {
+    title: "About Us",
+    url: "/about",
+    links: [
+      {
+        label: "Company",
+        href: "/behindUs",
+      },
+      {
+        label: "People",
+        href: "/behindUs",
+      },
+      {
+        label: "Work With Us",
+        href: "/behindUs",
+      },
+    ],
+  },
+  {
+    title: "Our Services",
+    url: "/services",
+    links: [
+      {
+        label: "Consulting",
+        href: "/services/details",
+      },
+      {
+        label: "Design",
+        href: "/services/details",
+      },
+      {
+        label: "Digital",
+        href: "/services/details",
+      },
+    ],
+  },
+  {
+    title: "Our Work",
+    url: "/work",
+    links: [
+      {
+        label: "Work Gallery",
+        href: "/work",
+      },
+    ],
+  },
+  {
+    title: "Contact Us",
+    url: "/contact",
+    links: [],
+  },
+];
+
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -17,18 +75,19 @@ const Header = () => {
 
 
   return (
-    <div className="header1">
+    <header className="header1">
       <div className="top">
         <div className="logo">
-          <img loading="lazy" src="/assets/Banner.png" height={40} width={40} alt="Logo" />
+          <img loading="lazy" src="/user-48.png" height={40} width={40} alt="Logo" />
           <h3 className="text-16 text-700">CX Agent</h3>
         </div>
         <button
           className={isMenuOpen ? "menu-toggle active " : "menu-toggle"}
+          aria-label={"menu-button"}
           onClick={toggleMenu} >
         </button>
       </div>
-      <div className={isMenuOpen ? "menu active " : "menu"}>
+      <nav className={isMenuOpen ? "menu active " : "menu"}>
         {menuItems.map((item, index) => (
           <div key={index} className="item-section">
             <Link to={item.url} className="h3"> {item.title}</Link>
@@ -42,8 +101,8 @@ const Header = () => {
             </div>
           </div>
         ))}
-      </div>
-    </div>
+      </nav>
+    </header>
   );
 };
 

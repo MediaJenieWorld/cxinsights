@@ -1,4 +1,4 @@
-import TestimonialsSlider from "@/Components/Testomonials/Slider";
+import TestimonialsSlider from "@/Components/Testomonials/Testimonial_Slider";
 import "./style.scss";
 import CoverPageImage from "@/Components/CoverPage";
 
@@ -10,19 +10,19 @@ const fakeData = [
   {
     heading: "Consulting",
     description: fakeDes,
-    imgSrc: "/assets/Service/image 10.png",
+    imgSrc: "/assets/Service/image-10.webp",
     link: "no-link",
   },
   {
     heading: "Design",
     description: fakeDes,
-    imgSrc: "/assets/Service/image 9.png",
+    imgSrc: "/assets/Service/image-9.webp",
     link: "no-link",
   },
   {
     heading: "Digital",
     description: fakeDes,
-    imgSrc: "/assets/Service/image 11.png",
+    imgSrc: "/assets/Service/image-11.webp",
     link: "no-link",
   },
 ];
@@ -36,7 +36,7 @@ paragraph can go here in 200 words. This can be multi-line text. `
 const ServicePage = () => {
   return (
     <div className="Service">
-      <CoverPageImage src={"/assets/Service/service-hero.png"} />
+      <CoverPageImage src={"/assets/Service/service-hero.webp"} />
       <div className="section-1">
         <pre className="text-84 text-600">{story}
         </pre>
@@ -45,7 +45,7 @@ const ServicePage = () => {
         </pre>
       </div>
       <div className="section-2">
-        <img loading="lazy" src="/assets/Service/main-hero.png" alt="Banner" />
+        <img loading="lazy" src="/assets/Service/main-hero.webp" alt="Banner" />
       </div>
       <div className="section-3">
         <h4 className="text-32 text-600">What we do?</h4>
